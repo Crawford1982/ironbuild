@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IronBuilds | 3D Printing a Full Iron Man Suit — Build Log & Electronics Guide</title>
+  <meta name="description" content="I 3D printed an Iron Man MK85 helmet. Now I have to build the whole suit. Follow the full build log — raw prints, beginner electronics guides, Arduino tutorials, and everything in between.">
+  <meta property="og:title" content="IronBuilds | 3D Printing a Full Iron Man Suit">
+  <meta property="og:description" content="Full MK85 Iron Man suit build log. Beginner electronics guides, LED wiring, Arduino tutorials, and a part-by-part breakdown of how it's done.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.ironbuilds.co.uk/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="IronBuilds | 3D Printing a Full Iron Man Suit">
+  <meta name="twitter:description" content="Raw prints, LED wiring, Arduino builds — follow the full Iron Man suit build from scratch.">
+  <!-- TODO: Replace with actual hero image URL once you have a good shot of the helmet -->
+  <meta property="og:image" content="https://www.ironbuilds.co.uk/images/og-hero.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="https://www.ironbuilds.co.uk/images/og-hero.jpg">
+  <link rel="canonical" href="https://www.ironbuilds.co.uk/">
+  <!-- TODO: Add favicon once you have a logo/icon: -->
+  <!-- <link rel="icon" type="image/png" href="/favicon.png"> -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a12;
+      --bg2:       #10101c;
+      --bg3:       #16162a;
+      --border:    #1e1e38;
+      --red:       #c0392b;
+      --red-bright:#e74c3c;
+      --gold:      #c9a227;
+      --gold-light:#f0c040;
+      --text:      #dde0f0;
+      --muted:     #7070a0;
+      --glow-red:  rgba(192,57,43,0.25);
+      --glow-gold: rgba(201,162,39,0.2);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    h1,h2,h3,h4 { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.03em; }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--gold-light); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,18,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .nav-logo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.08em;
+    }
+    .nav-logo span { color: var(--red-bright); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      color: var(--muted); font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; overflow: hidden;
+      padding: 6rem 2rem 5rem;
+      text-align: center;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(192,57,43,0.15) 0%, transparent 70%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px
+      ), repeating-linear-gradient(
+        90deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px
+      );
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(192,57,43,0.15);
+      border: 1px solid rgba(192,57,43,0.4);
+      color: var(--red-bright);
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.3rem 0.9rem; border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 700; line-height: 1.1;
+      color: #fff;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold-light);
+    }
+    .hero p {
+      font-size: 1.1rem; color: var(--muted);
+      max-width: 600px; margin: 0 auto 2.5rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block; padding: 0.75rem 1.8rem;
+      border-radius: 3px; font-weight: 600; font-size: 0.95rem;
+      transition: all 0.2s; cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--red);
+      color: #fff; border: 1px solid var(--red);
+    }
+    .btn-primary:hover { background: var(--red-bright); color: #fff; }
+    .btn-outline {
+      background: transparent;
+      color: var(--gold); border: 1px solid var(--gold);
+    }
+    .btn-outline:hover { background: rgba(201,162,39,0.1); color: var(--gold-light); }
+
+    /* ── PROGRESS ── */
+    .progress-wrap {
+      max-width: 700px; margin: 3rem auto 0;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1.5rem 2rem;
+    }
+    .progress-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.8rem;
+    }
+    .progress-header span { font-family: 'Rajdhani', sans-serif; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .progress-header strong { color: var(--gold-light); font-size: 1rem; }
+    .progress-bar {
+      height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; width: 22%;
+      background: linear-gradient(90deg, var(--red), var(--gold));
+      border-radius: 4px;
+      box-shadow: 0 0 12px var(--glow-gold);
+    }
+    .progress-pieces {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;
+    }
+    .piece-tag {
+      font-size: 0.78rem; padding: 0.25rem 0.65rem; border-radius: 2px;
+      font-weight: 500;
+    }
+    .piece-done { background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.35); color: var(--red-bright); }
+    .piece-progress { background: rgba(201,162,39,0.12); border: 1px solid rgba(201,162,39,0.35); color: var(--gold-light); }
+    .piece-queued { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--red-bright);
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; color: #fff; margin-bottom: 0.75rem;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--muted);
+      max-width: 600px; margin-bottom: 3rem;
+    }
+
+    /* ── BUILD CARDS ── */
+    .build-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .build-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .build-card:hover { border-color: var(--red); transform: translateY(-3px); }
+    .card-img {
+      width: 100%; aspect-ratio: 16/9;
+      background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      border-bottom: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .card-img-placeholder {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    /* Placeholder glows */
+    .card-img.helmet-img { background: radial-gradient(circle at 50% 60%, rgba(192,57,43,0.2), var(--bg3) 70%); }
+    .card-img.glove-img  { background: radial-gradient(circle at 50% 60%, rgba(50,100,255,0.15), var(--bg3) 70%); }
+    .card-img.chest-img  { background: radial-gradient(circle at 50% 50%, rgba(201,162,39,0.15), var(--bg3) 70%); }
+    .card-status {
+      position: absolute; top: 0.75rem; right: 0.75rem;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px;
+    }
+    .status-done { background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.4); color: var(--red-bright); }
+    .status-wip  { background: rgba(201,162,39,0.15); border: 1px solid rgba(201,162,39,0.4); color: var(--gold-light); }
+    .card-body { padding: 1.25rem 1.5rem; }
+    .card-body h3 { font-size: 1.3rem; color: #fff; margin-bottom: 0.5rem; }
+    .card-body p  { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 2px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── ELECTRONICS ── */
+    .electronics-section { background: var(--bg2); }
+    .elec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+    .elec-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .elec-card:hover { border-color: var(--gold); }
+    .elec-icon {
+      width: 44px; height: 44px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .elec-icon.red  { background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.3); }
+    .elec-icon.gold { background: rgba(201,162,39,0.12); border: 1px solid rgba(201,162,39,0.3); }
+    .elec-icon.blue { background: rgba(50,100,220,0.12); border: 1px solid rgba(50,100,220,0.3); }
+    .elec-card h3 { font-size: 1.15rem; color: #fff; margin-bottom: 0.4rem; }
+    .elec-card p  { font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem; }
+    .elec-parts { list-style: none; }
+    .elec-parts li {
+      font-size: 0.85rem; color: var(--text);
+      padding: 0.5rem 0; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .elec-parts li:last-child { border-bottom: none; }
+    .elec-parts a {
+      font-size: 0.75rem; padding: 0.2rem 0.6rem;
+      border: 1px solid rgba(201,162,39,0.3);
+      border-radius: 2px; color: var(--gold);
+      transition: all 0.2s;
+    }
+    .elec-parts a:hover { background: rgba(201,162,39,0.1); color: var(--gold-light); }
+
+    /* ── ARDUINO ── */
+    .arduino-section {
+      background: radial-gradient(ellipse 70% 50% at 50% 100%, rgba(192,57,43,0.08), transparent);
+    }
+    .arduino-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    @media(max-width: 700px) { .arduino-grid { grid-template-columns: 1fr; } }
+    .arduino-intro h2 { font-size: 2rem; color: #fff; margin-bottom: 1rem; }
+    .arduino-intro p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .project-list { list-style: none; }
+    .project-list li {
+      padding: 1rem 1.2rem; margin-bottom: 0.75rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-left: 3px solid var(--red);
+      border-radius: 4px;
+    }
+    .project-list li strong { display: block; color: #fff; font-size: 1rem; margin-bottom: 0.2rem; }
+    .project-list li span { font-size: 0.85rem; color: var(--muted); }
+    .difficulty {
+      display: inline-block; font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.15rem 0.5rem; border-radius: 2px; margin-left: 0.5rem;
+    }
+    .diff-easy   { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.3); color: #2ecc71; }
+    .diff-medium { background: rgba(201,162,39,0.12); border: 1px solid rgba(201,162,39,0.3); color: var(--gold-light); }
+    .diff-hard   { background: rgba(192,57,43,0.12); border: 1px solid rgba(192,57,43,0.3); color: var(--red-bright); }
+    .code-block {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1.5rem; overflow-x: auto;
+    }
+    .code-block pre {
+      font-family: 'Courier New', monospace; font-size: 0.82rem;
+      line-height: 1.6; color: var(--text);
+    }
+    .code-comment { color: var(--muted); }
+    .code-keyword { color: var(--red-bright); }
+    .code-value   { color: var(--gold-light); }
+    .code-string  { color: #a8d8a8; }
+
+    /* ── BUILD LOG ── */
+    .log-grid { display: grid; gap: 1.5rem; }
+    .log-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1.75rem 2rem;
+      display: grid; grid-template-columns: auto 1fr; gap: 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .log-card:hover { border-color: var(--red); }
+    .log-date {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); white-space: nowrap;
+      padding-top: 0.25rem;
+      min-width: 80px;
+    }
+    .log-content h3 { font-size: 1.25rem; color: #fff; margin-bottom: 0.4rem; }
+    .log-content p  { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem; }
+    .log-meta { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+    /* ── VIDEOS ── */
+    .videos-section { background: var(--bg2); }
+    .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .video-embed {
+      aspect-ratio: 9/16; border-radius: 6px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--bg3);
+      position: relative;
+    }
+    .video-embed iframe { width: 100%; height: 100%; border: none; }
+    .video-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 0.75rem; color: var(--muted);
+      background: radial-gradient(circle at 50% 50%, rgba(192,57,43,0.08), var(--bg3) 70%);
+    }
+    .video-placeholder span { font-size: 0.85rem; letter-spacing: 0.05em; }
+    .play-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(192,57,43,0.2); border: 2px solid rgba(192,57,43,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    /* ── FAQ ── */
+    .faq-list { max-width: 800px; }
+    .faq-item {
+      border-bottom: 1px solid var(--border); padding: 1.5rem 0;
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-q {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.15rem; font-weight: 600; color: #fff;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 1rem;
+    }
+    .faq-q::after {
+      content: '+';
+      color: var(--red-bright); font-size: 1.4rem; font-weight: 300;
+      flex-shrink: 0; transition: transform 0.2s;
+    }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+    .faq-a {
+      font-size: 0.92rem; color: var(--muted); line-height: 1.7;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.2s ease;
+      padding-top: 0;
+    }
+    .faq-item.open .faq-a { max-height: 200px; padding-top: 0.6rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg2); border-top: 1px solid var(--border);
+      padding: 3rem 2rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; gap: 2rem;
+      justify-content: space-between; align-items: start;
+    }
+    .footer-brand .nav-logo { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
+    .footer-brand p { font-size: 0.85rem; color: var(--muted); max-width: 280px; }
+    .footer-links h4 {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem;
+    }
+    .footer-links a { display: block; font-size: 0.88rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom {
+      max-width: 1100px; margin: 2rem auto 0;
+      padding-top: 1.5rem; border-top: 1px solid var(--border);
+      font-size: 0.78rem; color: var(--muted); line-height: 1.7;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none; border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 600px) {
+      .nav-links { display: none; }
+      .log-card  { grid-template-columns: 1fr; gap: 0.5rem; }
+      .log-date  { font-size: 0.75rem; }
+    }
+  </style>
+
+  <!-- Schema: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "IronBuilds",
+    "url": "https://www.ironbuilds.co.uk/",
+    "description": "Full 3D printed Iron Man suit build log with beginner electronics guides and Arduino tutorials.",
+    "author": { "@type": "Person", "name": "Jim" }
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What 3D printer do you use for the Iron Man suit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "I use a Creality Ender 3 series printer for the build. Most of the suit pieces are too large for a standard bed so they're printed in sections and glued together. Any mid-range FDM printer will work — you don't need anything fancy to get started." }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does it take to 3D print an Iron Man helmet?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The MK85 helmet takes roughly 40–60 hours total print time across all sections, depending on your print settings. I print at 0.2mm layer height with 20% infill which gives a good balance of quality and speed." }
+      },
+      {
+        "@type": "Question",
+        "name": "What electronics do I need for an Iron Man helmet?",
+        "acceptedAnswer": { "@type": "Answer", "text": "At minimum you need LED modules for the eyes — a pre-made LED kit works perfectly for beginners. For more advanced builds, an Arduino Nano lets you program custom glow effects, pulsing animations, and eventually servo-controlled faceplate flipping. Full beginner guide on this page." }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to know how to code to add electronics?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Not at all. Pre-made LED modules need zero coding — they plug in and glow. Even with Arduino, the code for basic lighting effects is simple enough for complete beginners. I'm documenting everything step by step as I go." }
+      },
+      {
+        "@type": "Question",
+        "name": "What filament do you use for the Iron Man suit?",
+        "acceptedAnswer": { "@type": "Answer", "text": "PLA for most structural pieces — it's easy to print, sands well, and takes paint nicely. For pieces that need more flexibility (like finger joints), I'll switch to PETG. The raw grey PLA actually looks great on camera before painting." }
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">IRON<span>BUILDS</span></div>
+    <div class="nav-links">
+      <a href="#build">The Build</a>
+      <a href="#electronics">Electronics</a>
+      <a href="#arduino">Arduino</a>
+      <a href="#log">Build Log</a>
+      <a href="#videos">Videos</a>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">🔴 Live Build — MK85 Iron Man Suit</div>
+    <h1>I <em>3D Printed</em> an Iron Man Helmet.<br>Now I Have to Build the Whole Suit.</h1>
+    <p>Raw prints, beginner-friendly electronics, a bit of Arduino where it counts — follow the full build from scratch.</p>
+    <div class="hero-ctas">
+      <a href="#electronics" class="btn btn-primary">Electronics Guide</a>
+      <a href="#log" class="btn btn-outline">Build Log</a>
+    </div>
+
+    <!-- Progress Tracker -->
+    <div class="progress-wrap">
+      <div class="progress-header">
+        <span>Suit Progress</span>
+        <strong>3 / 14 pieces</strong>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <div class="progress-pieces">
+        <span class="piece-tag piece-done">✓ MK85 Helmet</span>
+        <span class="piece-tag piece-done">✓ Repulsor Glove</span>
+        <span class="piece-tag piece-progress">⟳ Chest Piece</span>
+        <span class="piece-tag piece-queued">Back Plate</span>
+        <span class="piece-tag piece-queued">Shoulders</span>
+        <span class="piece-tag piece-queued">Upper Arms</span>
+        <span class="piece-tag piece-queued">Forearms</span>
+        <span class="piece-tag piece-queued">Thighs</span>
+        <span class="piece-tag piece-queued">Shins</span>
+        <span class="piece-tag piece-queued">Boots</span>
+        <span class="piece-tag piece-queued">Waist</span>
+        <span class="piece-tag piece-queued">Hip Plates</span>
+        <span class="piece-tag piece-queued">Neck / Collar</span>
+        <span class="piece-tag piece-queued">Undersuit</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- THE BUILD SO FAR -->
+  <section id="build">
+    <div class="container">
+      <div class="section-label">The Build So Far</div>
+      <h2 class="section-title">Three Pieces Down. Eleven to Go.</h2>
+      <p class="section-sub">Each piece gets printed raw, then electronics get added. No painting yet — just raw grey PLA doing the work right now.</p>
+
+      <div class="build-grid">
+
+        <!-- Helmet -->
+        <div class="build-card">
+          <div class="card-img helmet-img">
+            <!-- TODO: Replace with: <img src="images/helmet.jpg" alt="3D Printed Iron Man MK85 Helmet"> -->
+            <span class="card-img-placeholder">📸 Helmet Photo</span>
+            <span class="card-status status-done">Complete</span>
+          </div>
+          <div class="card-body">
+            <h3>MK85 Helmet</h3>
+            <p>Printed in 6 sections, assembled with superglue and filler. The eye gaps are left open ready for LEDs — deciding between a pre-made module and a custom Arduino glow effect.</p>
+            <div class="card-tags">
+              <span class="tag">Ender 3</span>
+              <span class="tag">PLA Grey</span>
+              <span class="tag">~52hr print</span>
+              <span class="tag">6 sections</span>
+              <span class="tag">LED eyes next</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glove -->
+        <div class="build-card">
+          <div class="card-img glove-img">
+            <!-- TODO: Replace with: <img src="images/glove.jpg" alt="3D Printed Iron Man Repulsor Glove"> -->
+            <span class="card-img-placeholder">📸 Glove Photo</span>
+            <span class="card-status status-done">Complete</span>
+          </div>
+          <div class="card-body">
+            <h3>Repulsor Glove</h3>
+            <p>Palm repulsor housing is printed and fits well. Planning a high-power LED in the palm with a push-button trigger in the finger — simple circuit, maximum impact.</p>
+            <div class="card-tags">
+              <span class="tag">PLA Grey</span>
+              <span class="tag">Articulated fingers</span>
+              <span class="tag">Palm LED housing</span>
+              <span class="tag">Button trigger</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chest -->
+        <div class="build-card">
+          <div class="card-img chest-img">
+            <!-- TODO: Replace with: <img src="images/chest.jpg" alt="3D Printed Iron Man Chest Piece"> -->
+            <span class="card-img-placeholder">📸 Chest In Progress</span>
+            <span class="card-status status-wip">Printing</span>
+          </div>
+          <div class="card-body">
+            <h3>Chest Piece + Arc Reactor</h3>
+            <p>Currently on the print bed. The arc reactor housing is built into the chest — planning a WS2812B LED ring with an Arduino running a pulse animation. This one's going to look the part.</p>
+            <div class="card-tags">
+              <span class="tag">PLA Grey</span>
+              <span class="tag">Arc reactor mount</span>
+              <span class="tag">LED ring</span>
+              <span class="tag">Arduino pulse</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ELECTRONICS GUIDE -->
+  <section id="electronics" class="electronics-section">
+    <div class="container">
+      <div class="section-label">Beginner Electronics Guide</div>
+      <h2 class="section-title">What Electronics Do You Actually Need?</h2>
+      <p class="section-sub">You don't need to be an engineer. Here's exactly what to buy for each piece — pre-made options that just work, plus the upgrade path when you want more control.</p>
+
+      <div class="elec-grid">
+
+        <!-- Helmet Electronics -->
+        <div class="elec-card">
+          <div class="elec-icon red">🪖</div>
+          <h3>Helmet — LED Eyes</h3>
+          <p>The eye gaps in the MK85 are designed to glow. Two options depending on how much control you want.</p>
+          <ul class="elec-parts">
+            <li>
+              <span>Pre-made LED eye modules</span>
+              <!-- TODO: Replace # with Amazon affiliate link -->
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>WS2812B LED strips (Arduino)</span>
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>18650 battery + holder</span>
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>Mini USB charge board</span>
+              <a href="#">Buy →</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Glove Electronics -->
+        <div class="elec-card">
+          <div class="elec-icon blue">🤚</div>
+          <h3>Repulsor Glove — Palm LED</h3>
+          <p>A single high-power LED in the palm, triggered by a button in the index finger. Simple circuit, looks incredible.</p>
+          <ul class="elec-parts">
+            <li>
+              <span>3W High-power white/blue LED</span>
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>Push button (mini tactile)</span>
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>Small LiPo battery + charger</span>
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>LED driver module</span>
+              <a href="#">Buy →</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Chest / Arc Reactor -->
+        <div class="elec-card">
+          <div class="elec-icon gold">⚡</div>
+          <h3>Chest — Arc Reactor</h3>
+          <p>A WS2812B ring gives you full colour control and animation. An Arduino Nano runs the pulse effect with about 20 lines of code.</p>
+          <ul class="elec-parts">
+            <li>
+              <span>WS2812B LED ring (12 or 16 LED)</span>
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>Arduino Nano</span>
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>Diffuser disc (frosted acrylic)</span>
+              <a href="#">Buy →</a>
+            </li>
+            <li>
+              <span>Power bank (USB, 5V)</span>
+              <a href="#">Buy →</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <p style="font-size: 0.82rem; color: var(--muted); margin-bottom: 2rem;">
+        STL files used in this build are sourced from <a href="https://www.printables.com" target="_blank" rel="noopener">Printables</a> and <a href="https://www.thingiverse.com" target="_blank" rel="noopener">Thingiverse</a>. Arduino code uses the <a href="https://fastled.io" target="_blank" rel="noopener">FastLED library</a>.
+      </p>
+
+      <!-- Starter kit callout -->
+      <div style="background: var(--bg); border: 1px solid rgba(201,162,39,0.25); border-radius: 6px; padding: 1.5rem 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
+        <div>
+          <div style="font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; color: var(--gold-light); font-weight: 600; margin-bottom: 0.3rem;">Complete Beginner Electronics Starter Kit</div>
+          <div style="font-size: 0.88rem; color: var(--muted);">Everything you need to light up the helmet, glove, and arc reactor. No soldering required for the basic setup.</div>
+        </div>
+        <!-- TODO: Replace # with Amazon affiliate link to a starter kit -->
+        <a href="#" class="btn btn-outline" style="white-space: nowrap;">View on Amazon →</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ARDUINO SECTION -->
+  <section id="arduino" class="arduino-section">
+    <div class="container">
+      <div class="section-label">Going Custom with Arduino</div>
+      <h2 class="section-title">Where Arduino Actually Makes Sense</h2>
+      <p class="section-sub">Pre-made modules get you glowing. Arduino gets you movie-accurate. Here's where the upgrade is worth it.</p>
+
+      <div class="arduino-grid">
+        <div class="arduino-intro">
+          <p>You don't need Arduino for everything — and I wouldn't start with it. But a few specific moments in the suit build are genuinely better with it, and the code is simple enough that a complete beginner can follow along.</p>
+          <p>I'll be documenting every Arduino build here with full wiring diagrams and code you can copy directly.</p>
+
+          <ul class="project-list" style="margin-top: 1.5rem;">
+            <li>
+              <strong>Arc Reactor Pulse Animation <span class="difficulty diff-easy">Easy</span></strong>
+              <span>Breathing glow effect on the chest LED ring. ~20 lines of code, looks exactly like the films.</span>
+            </li>
+            <li>
+              <strong>Repulsor Charge Effect <span class="difficulty diff-easy">Easy</span></strong>
+              <span>Palm LED slowly charges up then bursts bright on button press. Dead simple and very satisfying.</span>
+            </li>
+            <li>
+              <strong>Helmet Eye Flicker / Startup Sequence <span class="difficulty diff-medium">Medium</span></strong>
+              <span>Power-on animation with a flicker-to-stable effect. Needs WS2812B LEDs and about 40 lines of code.</span>
+            </li>
+            <li>
+              <strong>Servo Faceplate Flip <span class="difficulty diff-hard">Coming Soon</span></strong>
+              <span>The holy grail. A servo mechanism that opens and closes the helmet faceplate. Full build guide coming when I get to it.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <div style="font-family: 'Rajdhani', sans-serif; font-size: 1rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem;">Arc Reactor Pulse — Starter Code</div>
+          <div class="code-block">
+            <pre><span class="code-comment">// Arc Reactor Pulse Effect
+// WS2812B ring on pin 6, Arduino Nano</span>
+
+<span class="code-keyword">#include</span> <span class="code-string">&lt;FastLED.h&gt;</span>
+
+<span class="code-keyword">#define</span> NUM_LEDS  <span class="code-value">16</span>
+<span class="code-keyword">#define</span> DATA_PIN  <span class="code-value">6</span>
+
+CRGB leds[NUM_LEDS];
+<span class="code-keyword">int</span> brightness = <span class="code-value">0</span>;
+<span class="code-keyword">int</span> step = <span class="code-value">2</span>;
+
+<span class="code-keyword">void</span> setup() {
+  FastLED.addLeds&lt;WS2812B, DATA_PIN, GRB&gt;(leds, NUM_LEDS);
+  FastLED.setBrightness(<span class="code-value">200</span>);
+}
+
+<span class="code-keyword">void</span> loop() {
+  brightness += step;
+  <span class="code-keyword">if</span> (brightness &gt;= <span class="code-value">255</span> || brightness &lt;= <span class="code-value">40</span>)
+    step = -step;
+
+  <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-value">0</span>; i &lt; NUM_LEDS; i++)
+    leds[i] = CHSV(<span class="code-value">140</span>, <span class="code-value">200</span>, brightness);
+
+  FastLED.show();
+  delay(<span class="code-value">8</span>);
+}</pre>
+          </div>
+          <p style="font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem;">Copy this directly into Arduino IDE. Install FastLED library first. Change <code style="color: var(--gold-light);">CHSV(140,...)</code> hue value to shift colour — 0 = red, 140 = blue-white.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- BUILD LOG -->
+  <section id="log">
+    <div class="container">
+      <div class="section-label">Build Log</div>
+      <h2 class="section-title">Updates As It Happens</h2>
+      <p class="section-sub">Raw progress notes from each build session. No gloss — just what worked, what didn't, and what's next.</p>
+
+      <div class="log-grid">
+
+        <div class="log-card">
+          <div class="log-date">Mar 2026</div>
+          <div class="log-content">
+            <h3>Chest Piece on the Bed — Arc Reactor Planning Begins</h3>
+            <p>Helmet and glove are done as raw prints. Chest is currently printing in two halves — it's a big piece and needs splitting to fit the bed. While it runs I'm planning the arc reactor electronics: going with a 16-LED WS2812B ring and an Arduino Nano for the pulse animation. Ordered the components tonight.</p>
+            <div class="log-meta">
+              <span class="tag">Chest piece</span>
+              <span class="tag">Arc reactor</span>
+              <span class="tag">Electronics planning</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="log-card">
+          <div class="log-date">Mar 2026</div>
+          <div class="log-content">
+            <h3>Repulsor Glove Done — 775 Views on First Reddit Post</h3>
+            <p>Glove is printed and assembled. Posted the helmet video to r/3Dprinting and hit 775 views on the first day which is a decent sign. Comments asking about the eye gaps — people want to know if I'll keep them open for LEDs. Yes. Obviously yes. Starting to gather electronics for both the helmet and glove.</p>
+            <div class="log-meta">
+              <span class="tag">Repulsor glove</span>
+              <span class="tag">Reddit</span>
+              <span class="tag">Electronics sourcing</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="log-card">
+          <div class="log-date">Mar 2026</div>
+          <div class="log-content">
+            <h3>MK85 Helmet Printed — The Suit Is Happening</h3>
+            <p>Started this wanting just the helmet. Printed it in 6 sections, glued it together, put it on, and that was it — the whole suit became inevitable. Already printing the glove. This is now a project. The eye gaps are left deliberately open for LEDs — undecided between a pre-made module and going full Arduino for a custom startup sequence.</p>
+            <div class="log-meta">
+              <span class="tag">MK85 helmet</span>
+              <span class="tag">6-section print</span>
+              <span class="tag">Build start</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- VIDEOS -->
+  <section id="videos" class="videos-section">
+    <div class="container">
+      <div class="section-label">On YouTube</div>
+      <h2 class="section-title">Watch the Build</h2>
+      <p class="section-sub">Shorts and longer videos as each piece comes together.</p>
+
+      <div class="video-grid">
+        <!-- TODO: Replace VIDEO_ID_1 with your actual YouTube Short video ID -->
+        <!-- Example: if URL is youtube.com/shorts/dQw4w9WgXcQ then VIDEO_ID = dQw4w9WgXcQ -->
+        <div class="video-embed">
+          <div class="video-placeholder">
+            <div class="play-icon">▶</div>
+            <span>MK85 Helmet Reveal</span>
+            <!-- Uncomment below and add video ID when ready: -->
+            <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" allowfullscreen></iframe> -->
+          </div>
+        </div>
+
+        <div class="video-embed">
+          <div class="video-placeholder">
+            <div class="play-icon">▶</div>
+            <span>Repulsor Glove Build</span>
+            <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" allowfullscreen></iframe> -->
+          </div>
+        </div>
+
+        <div class="video-embed">
+          <div class="video-placeholder">
+            <div class="play-icon">▶</div>
+            <span>Coming Soon</span>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin-top: 1.5rem; font-size: 0.88rem; color: var(--muted); text-align: center;">
+        <!-- TODO: Replace with your YouTube channel URL -->
+        More on <a href="https://www.youtube.com/@YOURCHANNEL" target="_blank" rel="noopener">YouTube →</a>
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Common Questions</h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q">What 3D printer do you use?</div>
+          <div class="faq-a">Creality Ender 3 series. Most suit pieces are too large for a single print so they're split into sections and glued. Any mid-range FDM printer gets you there — you don't need anything fancy.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How long does the helmet take to print?</div>
+          <div class="faq-a">About 40–60 hours total across all 6 sections at 0.2mm layer height, 20% infill. That's spread across multiple days — not 60 hours straight.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What electronics do I need for the helmet?</div>
+          <div class="faq-a">At minimum, pre-made LED eye modules — they slot in and glow, zero wiring knowledge needed. For custom effects you'll want an Arduino Nano and WS2812B LEDs. Full guide above with exact parts and links.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Do I need to know how to code?</div>
+          <div class="faq-a">Not for the basics. Pre-made modules need no code at all. Even with Arduino, the arc reactor pulse effect is about 20 lines — I'm posting the full code here as I build it.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What filament do you use?</div>
+          <div class="faq-a">PLA for almost everything — easy to print, sands well, takes paint nicely. I'll switch to PETG for flex parts like finger joints. The raw grey PLA honestly looks great on camera before any finishing.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="nav-logo">IRON<span style="color: var(--red-bright);">BUILDS</span></span>
+        <p>A full 3D printed Iron Man suit build log. Raw prints, electronics guides, and Arduino tutorials for beginners.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Build</h4>
+        <a href="#build">The Suit So Far</a>
+        <a href="#log">Build Log</a>
+        <a href="#videos">Videos</a>
+      </div>
+      <div class="footer-links">
+        <h4>Guides</h4>
+        <a href="#electronics">Electronics Guide</a>
+        <a href="#arduino">Arduino Projects</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-links">
+        <h4>Follow</h4>
+        <!-- TODO: Replace with actual links -->
+        <a href="https://www.youtube.com/@YOURCHANNEL" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.reddit.com/user/Powerful_Maize8399" target="_blank" rel="noopener">Reddit</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 IronBuilds.co.uk — This site contains affiliate links. If you buy via these links I may earn a small commission at no extra cost to you. All products are ones I actually use or plan to use in this build. IronBuilds is an independent fan project and is not affiliated with Marvel, Disney, or any rights holders.</p>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+
+</body>
+</html>
