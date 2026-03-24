@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QCY44TYZC6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QCY44TYZC6');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IronBuilds | 3D Printing a Full Iron Man Suit — Build Log & Electronics Guide</title>
@@ -12,14 +20,13 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="IronBuilds | 3D Printing a Full Iron Man Suit">
   <meta name="twitter:description" content="Raw prints, LED wiring, Arduino builds — follow the full Iron Man suit build from scratch.">
-  <!-- TODO: Replace with actual hero image URL once you have a good shot of the helmet -->
   <meta property="og:image" content="https://www.ironbuilds.co.uk/images/og-hero.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:image" content="https://www.ironbuilds.co.uk/images/og-hero.jpg">
   <link rel="canonical" href="https://www.ironbuilds.co.uk/">
-  <!-- TODO: Add favicon once you have a logo/icon: -->
-  <!-- <link rel="icon" type="image/png" href="/favicon.png"> -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -830,37 +837,55 @@ CRGB leds[NUM_LEDS];
       <h2 class="section-title">Watch the Build</h2>
       <p class="section-sub">Shorts and longer videos as each piece comes together.</p>
 
+      <!-- Featured long-form video -->
+      <div style="max-width: 800px; margin: 0 auto 2.5rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16/9;">
+        <iframe width="100%" height="100%"
+          src="https://www.youtube.com/embed/rNQiCLwh48g"
+          title="I 3D Printed an Iron Man MK85 Helmet.....Now I Have to Build the Whole Suit"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <!-- Shorts -->
+      <div style="font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; text-align: center; margin-bottom: 1.25rem;">Shorts</div>
       <div class="video-grid">
-        <!-- TODO: Replace VIDEO_ID_1 with your actual YouTube Short video ID -->
-        <!-- Example: if URL is youtube.com/shorts/dQw4w9WgXcQ then VIDEO_ID = dQw4w9WgXcQ -->
+
         <div class="video-embed">
-          <div class="video-placeholder">
-            <div class="play-icon">▶</div>
-            <span>MK85 Helmet Reveal</span>
-            <!-- Uncomment below and add video ID when ready: -->
-            <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" allowfullscreen></iframe> -->
-          </div>
+          <iframe
+            src="https://www.youtube.com/embed/tW9_5mwElo4"
+            title="I 3D Printed Iron Man's Helmet.....Then Turned Off the Lights"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         </div>
 
         <div class="video-embed">
-          <div class="video-placeholder">
-            <div class="play-icon">▶</div>
-            <span>Repulsor Glove Build</span>
-            <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" allowfullscreen></iframe> -->
-          </div>
+          <iframe
+            src="https://www.youtube.com/embed/P8juLxVzosg"
+            title="I'm 3D Printing a Full Iron Man Suit"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         </div>
 
         <div class="video-embed">
-          <div class="video-placeholder">
-            <div class="play-icon">▶</div>
-            <span>Coming Soon</span>
-          </div>
+          <iframe
+            src="https://www.youtube.com/embed/ahINeT60rTU"
+            title="One Part Closer to Being Iron Man"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         </div>
+
       </div>
 
       <p style="margin-top: 1.5rem; font-size: 0.88rem; color: var(--muted); text-align: center;">
-        <!-- TODO: Replace with your YouTube channel URL -->
-        More on <a href="https://www.youtube.com/@YOURCHANNEL" target="_blank" rel="noopener">YouTube →</a>
+        More on <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube @EngineeringChaosDIY →</a>
       </p>
     </div>
   </section>
@@ -924,7 +949,7 @@ CRGB leds[NUM_LEDS];
       <div class="footer-links">
         <h4>Follow</h4>
         <!-- TODO: Replace with actual links -->
-        <a href="https://www.youtube.com/@YOURCHANNEL" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube</a>
         <a href="https://www.reddit.com/user/Powerful_Maize8399" target="_blank" rel="noopener">Reddit</a>
       </div>
     </div>
