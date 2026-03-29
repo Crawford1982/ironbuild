@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QCY44TYZC6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QCY44TYZC6');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iron Man Suit Build Log — Full Progress Updates | IronBuilds</title>
+  <meta name="description" content="Full chronological build log for a 3D printed Iron Man MK85 suit. Helmet done, repulsor glove done, chest piece printing. Raw progress notes, mistakes included.">
+  <meta property="og:title" content="Iron Man Suit Build Log — Full Progress Updates">
+  <meta property="og:description" content="Helmet done, repulsor glove done, chest piece printing. Follow the full Iron Man 3D print build from the beginning — every session logged.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.ironbuilds.co.uk/build-log/">
+  <meta property="og:image" content="https://www.ironbuilds.co.uk/images/og-hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.ironbuilds.co.uk/build-log/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0a0a12; --bg2:#10101c; --bg3:#16162a; --border:#1e1e38;
+      --red:#c0392b; --red-bright:#e74c3c; --gold:#c9a227; --gold-light:#f0c040;
+      --text:#dde0f0; --muted:#7070a0;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.7; }
+    h1,h2,h3,h4 { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.03em; }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--gold-light); }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,18,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--gold-light); letter-spacing: 0.08em; }
+    .nav-logo span { color: var(--red-bright); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .page-header {
+      padding: 3.5rem 2rem 3rem;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,162,39,0.1) 0%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header .container { max-width: 1100px; margin: 0 auto; }
+    .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb span { margin: 0 0.4rem; }
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 0.5rem; }
+    .page-header h1 { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 700; color: #fff; line-height: 1.15; margin-bottom: 0.75rem; }
+    .page-header h1 em { font-style: normal; color: var(--gold-light); }
+    .page-header .lead { font-size: 1.05rem; color: var(--muted); max-width: 680px; }
+
+    section { padding: 4rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; color: #fff; margin-bottom: 0.75rem; }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 680px; margin-bottom: 2.5rem; }
+
+    /* Progress summary strip */
+    .progress-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 3rem; }
+    .pstat { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem 1.5rem; }
+    .pstat .pval { font-family: 'Rajdhani', sans-serif; font-size: 2rem; font-weight: 700; color: var(--gold-light); line-height: 1; margin-bottom: 0.3rem; }
+    .pstat .plabel { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+
+    /* Log entries */
+    .log-timeline { position: relative; padding-left: 2rem; }
+    .log-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--red), var(--gold), var(--border)); border-radius: 2px; }
+
+    .log-entry { position: relative; margin-bottom: 3rem; padding-left: 1.5rem; }
+    .log-entry::before { content: ''; position: absolute; left: -2.4rem; top: 0.55rem; width: 10px; height: 10px; border-radius: 50%; background: var(--red); border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--red); }
+    .log-entry.wip::before { background: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+    .log-entry.queued::before { background: var(--border); box-shadow: 0 0 0 2px var(--muted); }
+
+    .log-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+    .log-date-pill { font-family: 'Rajdhani', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); background: var(--bg2); border: 1px solid var(--border); padding: 0.2rem 0.7rem; border-radius: 2px; }
+    .log-status { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.6rem; border-radius: 2px; }
+    .status-done { background: rgba(192,57,43,0.2); border: 1px solid rgba(192,57,43,0.4); color: var(--red-bright); }
+    .status-wip  { background: rgba(201,162,39,0.15); border: 1px solid rgba(201,162,39,0.4); color: var(--gold-light); }
+
+    .log-entry h3 { font-size: 1.4rem; color: #fff; margin-bottom: 0.6rem; line-height: 1.2; }
+    .log-body { max-width: 700px; }
+    .log-body p { font-size: 0.95rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.8; }
+    .log-body p:last-child { margin-bottom: 0; }
+    .log-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 1rem; }
+    .tag { font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 2px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); }
+
+    .video-wrap { max-width: 780px; margin: 2rem 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16/9; }
+    .video-wrap iframe { width: 100%; height: 100%; border: none; }
+
+    .shorts-row { display: flex; gap: 1.5rem; flex-wrap: wrap; margin: 1.5rem 0; }
+    .short-embed { width: 200px; flex-shrink: 0; aspect-ratio: 9/16; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); background: var(--bg3); }
+    .short-embed iframe { width: 100%; height: 100%; border: none; }
+
+    /* Upcoming pieces */
+    .upcoming-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-top: 1.5rem; }
+    .upcoming-piece { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .up-num { font-family: 'Rajdhani', sans-serif; font-size: 0.8rem; color: var(--muted); min-width: 20px; }
+    .up-name { font-size: 0.9rem; color: var(--text); }
+
+    .nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .nav-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; display: block; }
+    .nav-card:hover { border-color: var(--gold); transform: translateY(-2px); color: var(--text); }
+    .nav-card .nc-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 0.4rem; }
+    .nav-card h3 { font-size: 1.15rem; color: #fff; margin-bottom: 0.4rem; }
+    .nav-card p { font-size: 0.87rem; color: var(--muted); }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: start; }
+    .footer-brand .nav-logo { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
+    .footer-brand p { font-size: 0.85rem; color: var(--muted); max-width: 280px; }
+    .footer-links h4 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    .footer-links a { display: block; font-size: 0.88rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom { max-width: 1100px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); }
+
+    @media(max-width:600px) { .nav-links { display: none; } .log-timeline { padding-left: 1.25rem; } .log-entry { padding-left: 1rem; } .log-entry::before { left: -1.65rem; } }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "IronBuilds Build Log",
+    "description": "Chronological build log for a 3D printed Iron Man MK85 suit — every session documented from helmet to full suit.",
+    "url": "https://www.ironbuilds.co.uk/build-log/",
+    "author": { "@type": "Person", "name": "Jim" },
+    "isPartOf": { "@type": "WebSite", "name": "IronBuilds", "url": "https://www.ironbuilds.co.uk/" }
+  }
+  </script>
+</head>
+
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">IRON<span>BUILDS</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/helmet/">Helmet</a>
+      <a href="/electronics/">Electronics</a>
+      <a href="/build-log/" class="active">Build Log</a>
+      <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="/">IronBuilds</a><span>›</span> Build Log</div>
+      <div class="section-label">Live Build — MK85 Iron Man Suit</div>
+      <h1>Iron Man Suit <em>Build Log</em></h1>
+      <p class="lead">Raw progress notes from every session. What got printed, what got wired, what broke, and what's next. Updated as it happens.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+
+  <!-- STATUS STRIP -->
+  <section>
+    <div class="container">
+      <div class="progress-strip">
+        <div class="pstat"><div class="pval">3</div><div class="plabel">Pieces Complete / In Progress</div></div>
+        <div class="pstat"><div class="pval">11</div><div class="plabel">Pieces Remaining</div></div>
+        <div class="pstat"><div class="pval">22%</div><div class="plabel">Suit Progress</div></div>
+        <div class="pstat"><div class="pval">~150 hrs</div><div class="plabel">Estimated Print Time Left</div></div>
+      </div>
+
+      <div class="section-label">Latest Updates</div>
+      <h2 class="section-title">Everything So Far</h2>
+      <p class="section-sub">Most recent entries first. Each update covers one or more build sessions — printed pieces, electronics sourcing, problems encountered, and decisions made.</p>
+
+      <div class="log-timeline">
+
+
+        <!-- ENTRY 3 — CURRENT -->
+        <div class="log-entry wip">
+          <div class="log-meta">
+            <span class="log-date-pill">Mar 2026</span>
+            <span class="log-status status-wip">⟳ In Progress</span>
+          </div>
+          <h3>Chest Piece on the Bed — Arc Reactor Planning Begins</h3>
+          <div class="log-body">
+            <p>Helmet and glove are done as raw prints. The chest piece is currently printing in two halves — it's a substantially larger piece than either the helmet or glove and needs to be split to fit the Ender 3 bed. The first half is running now and it's looking clean so far. I've already accounted for the arc reactor housing cavity in the front section, so the LED ring will sit flush with no modification needed.</p>
+            <p>While the chest prints I've been sorting out the arc reactor electronics. Going with a 16-LED WS2812B ring and an Arduino Nano — the pulse animation code is already written and tested on the bench. I ordered the ring, a frosted acrylic diffuser disc, and a slim USB power bank to run the Arduino. Components arrived in two days.</p>
+            <p>The plan is: finish printing both chest halves, glue them together with the same superglue process as the helmet, then do the arc reactor wiring before moving on to the back plate. The chest is by far the most prominent piece of the suit so I want to get the electronics right here before moving on.</p>
+            <p>Next up after the chest: back plate, then I'll likely jump to the forearms since those need the repulsor glove electronics integration. Full details in the <a href="/electronics/">Electronics Guide</a>.</p>
+            <div class="log-tags">
+              <span class="tag">Chest piece</span>
+              <span class="tag">Arc reactor</span>
+              <span class="tag">WS2812B</span>
+              <span class="tag">Arduino Nano</span>
+              <span class="tag">Electronics planning</span>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ENTRY 2 -->
+        <div class="log-entry">
+          <div class="log-meta">
+            <span class="log-date-pill">Mar 2026</span>
+            <span class="log-status status-done">✓ Complete</span>
+          </div>
+          <h3>Repulsor Glove Done — And the YouTube Channel Launches</h3>
+          <div class="log-body">
+            <p>The repulsor glove is printed and assembled. The palm housing came out well — the circular LED mount in the centre is clean and there's good clearance for the wiring to run through the finger joints. I've printed both the right hand version (main build) and a left hand version so the suit eventually has both.</p>
+            <p>The articulated finger sections are the fiddliest part of this piece. Each finger is three segments connected by small pin joints, and getting the tolerances right took two attempts — the first print had the joints too tight and they cracked on assembly. Scaled the joint clearance by +0.3mm on the reprint and they move freely now.</p>
+            <p>On the electronics side, the palm LED setup is simple: a 3W cool white LED in the housing, a constant-current LED driver module, a small push button in the index finger channel, and a flat LiPo in the back-of-hand section. Full wiring diagram is on the <a href="/electronics/#repulsor">Electronics page</a>.</p>
+            <p>The big moment this session: posted the helmet build video to Reddit's r/3Dprinting and r/ironman and the response was unexpected. The video hit 291 views within the first day and the Reddit posts got hundreds of upvotes and comments. Lots of people asking about the eye LEDs and whether I'll go full suit. Yes. Obviously. That's the whole point.</p>
+            <p>The YouTube channel — <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">@EngineeringChaosDIY</a> — is where the build videos live. The first long-form video covering the helmet build and the decision to go for the full suit is below.</p>
+            <div class="log-tags">
+              <span class="tag">Repulsor glove</span>
+              <span class="tag">Articulated fingers</span>
+              <span class="tag">Palm LED</span>
+              <span class="tag">YouTube launch</span>
+              <span class="tag">Reddit</span>
+            </div>
+          </div>
+
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/rNQiCLwh48g"
+              title="I 3D Printed an Iron Man Helmet — Can I Really Build the Whole Suit?"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+          </div>
+
+          <div class="shorts-row">
+            <div class="short-embed">
+              <iframe src="https://www.youtube.com/embed/tW9_5mwElo4"
+                title="I 3D Printed Iron Man Helmet Eyes That ACTUALLY WORK"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+            <div class="short-embed">
+              <iframe src="https://www.youtube.com/embed/P8juLxVzosg"
+                title="I'm 3D Printing a Full Iron Man Suit"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+            <div class="short-embed">
+              <iframe src="https://www.youtube.com/embed/ahINeT60rTU"
+                title="One Part Closer to Being Iron Man"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ENTRY 1 — START -->
+        <div class="log-entry">
+          <div class="log-meta">
+            <span class="log-date-pill">Mar 2026</span>
+            <span class="log-status status-done">✓ Complete</span>
+          </div>
+          <h3>MK85 Helmet Printed — The Suit Is Happening</h3>
+          <div class="log-body">
+            <p>It started with just the helmet. I'd been wanting to try a large multi-part print for a while, and the MK85 Iron Man helmet seemed like the right project — recognisable, well-documented by the community, and genuinely impressive once assembled.</p>
+            <p>The STL files came from Printables — a well-regarded version with good reviews and clean section splits. Six pieces: crown, two face plates, chin/jaw, upper back, and neck collar. Print time was about 52 hours total across five days. All printed in grey PLA on an Ender 3 at 0.2mm layer height, 20% infill.</p>
+            <p>Assembly was straightforward. Dry-fit first, then superglue in pairs starting with the two face plate halves. The seams needed a small amount of filler and a sand but nothing excessive — the section alignment on this file was good. The helmet sits on my head with enough room for some foam padding inside, and the eye gaps came out exactly the right size for LED modules.</p>
+            <p>That was supposed to be the end of it. Put on the finished helmet, took a photo, and that was it — the whole suit became inevitable. I ordered the glove STL files the same evening.</p>
+            <p>The eye LEDs are still on the to-do list. I've left the gaps deliberately open and I'm deciding between a pre-made module (quick and clean) and a custom Arduino startup sequence (takes longer but looks better). Full comparison on the <a href="/helmet/">Helmet Guide page</a>.</p>
+            <div class="log-tags">
+              <span class="tag">MK85 helmet</span>
+              <span class="tag">Ender 3</span>
+              <span class="tag">PLA grey</span>
+              <span class="tag">6-section print</span>
+              <span class="tag">52 hrs print time</span>
+              <span class="tag">Build start</span>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- WHAT'S NEXT -->
+  <section style="background: var(--bg2);">
+    <div class="container">
+      <div class="section-label">Coming Up</div>
+      <h2 class="section-title">The Rest of the Suit</h2>
+      <p class="section-sub">11 pieces still to print. Each one will get a build log entry when it's done. Subscribe on YouTube to catch each update as it drops.</p>
+
+      <div class="upcoming-grid">
+        <div class="upcoming-piece"><span class="up-num">4</span><span class="up-name">Back Plate</span></div>
+        <div class="upcoming-piece"><span class="up-num">5</span><span class="up-name">Shoulders</span></div>
+        <div class="upcoming-piece"><span class="up-num">6</span><span class="up-name">Upper Arms</span></div>
+        <div class="upcoming-piece"><span class="up-num">7</span><span class="up-name">Forearms</span></div>
+        <div class="upcoming-piece"><span class="up-num">8</span><span class="up-name">Thighs</span></div>
+        <div class="upcoming-piece"><span class="up-num">9</span><span class="up-name">Shins</span></div>
+        <div class="upcoming-piece"><span class="up-num">10</span><span class="up-name">Boots</span></div>
+        <div class="upcoming-piece"><span class="up-num">11</span><span class="up-name">Waist</span></div>
+        <div class="upcoming-piece"><span class="up-num">12</span><span class="up-name">Hip Plates</span></div>
+        <div class="upcoming-piece"><span class="up-num">13</span><span class="up-name">Neck / Collar</span></div>
+        <div class="upcoming-piece"><span class="up-num">14</span><span class="up-name">Undersuit</span></div>
+      </div>
+
+      <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--muted);">
+        Follow on <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube @EngineeringChaosDIY</a> for video updates, and check back here for build log entries after each session.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- CONTINUE -->
+  <section>
+    <div class="container">
+      <div class="section-label">Guides</div>
+      <h2 class="section-title">Dig Into the Build</h2>
+      <div class="nav-cards">
+        <a href="/helmet/" class="nav-card">
+          <div class="nc-label">Completed</div>
+          <h3>MK85 Helmet Guide →</h3>
+          <p>Full build guide for the helmet — print settings, 6-section breakdown, assembly, and LED eye wiring.</p>
+        </a>
+        <a href="/electronics/" class="nav-card">
+          <div class="nc-label">Guide</div>
+          <h3>Electronics Guide →</h3>
+          <p>Every circuit documented — helmet LEDs, repulsor palm, and arc reactor. Wiring diagrams and Arduino code included.</p>
+        </a>
+        <a href="/" class="nav-card">
+          <div class="nc-label">Overview</div>
+          <h3>IronBuilds Home →</h3>
+          <p>The full suit overview, progress tracker, and all 14 pieces at a glance.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo">IRON<span style="color:var(--red-bright)">BUILDS</span></a>
+        <p>A full 3D printed Iron Man suit build log. Raw prints, electronics guides, and Arduino tutorials for beginners.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Build</h4>
+        <a href="/helmet/">MK85 Helmet Guide</a>
+        <a href="/build-log/">Build Log</a>
+        <a href="/#build">The Suit So Far</a>
+      </div>
+      <div class="footer-links">
+        <h4>Guides</h4>
+        <a href="/electronics/">Electronics Guide</a>
+        <a href="/#arduino">Arduino Projects</a>
+        <a href="/#faq">FAQ</a>
+      </div>
+      <div class="footer-links">
+        <h4>Follow</h4>
+        <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.reddit.com/user/Powerful_Maize8399" target="_blank" rel="noopener">Reddit</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 IronBuilds.co.uk — This site contains affiliate links. If you buy via these links I may earn a small commission at no extra cost to you. IronBuilds is an independent fan project and is not affiliated with Marvel, Disney, or any rights holders.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

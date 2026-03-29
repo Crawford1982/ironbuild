@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QCY44TYZC6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QCY44TYZC6');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to 3D Print an Iron Man MK85 Helmet — Full Build Guide | IronBuilds</title>
+  <meta name="description" content="Step-by-step guide to 3D printing the Iron Man MK85 helmet. Print settings, filament, how to split it into sections, assembly tips, and how to wire the LED eyes — from someone actually doing it.">
+  <meta property="og:title" content="How to 3D Print an Iron Man MK85 Helmet — Full Build Guide">
+  <meta property="og:description" content="Print settings, section breakdown, assembly, and LED eye wiring for the MK85 Iron Man helmet. A real build guide, not theory.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.ironbuilds.co.uk/helmet/">
+  <meta property="og:image" content="https://www.ironbuilds.co.uk/images/og-hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.ironbuilds.co.uk/helmet/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0a0a12; --bg2:#10101c; --bg3:#16162a; --border:#1e1e38;
+      --red:#c0392b; --red-bright:#e74c3c; --gold:#c9a227; --gold-light:#f0c040;
+      --text:#dde0f0; --muted:#7070a0; --glow-red:rgba(192,57,43,0.25); --glow-gold:rgba(201,162,39,0.2);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.7; }
+    h1,h2,h3,h4 { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.03em; }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--gold-light); }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,18,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--gold-light); letter-spacing: 0.08em; }
+    .nav-logo span { color: var(--red-bright); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .page-header {
+      padding: 3.5rem 2rem 3rem;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(192,57,43,0.12) 0%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header .container { max-width: 1100px; margin: 0 auto; }
+    .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb span { margin: 0 0.4rem; }
+    .page-header .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 0.5rem; }
+    .page-header h1 { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 700; color: #fff; line-height: 1.15; margin-bottom: 0.75rem; }
+    .page-header h1 em { font-style: normal; color: var(--gold-light); }
+    .page-header .lead { font-size: 1.05rem; color: var(--muted); max-width: 680px; }
+
+    section { padding: 4rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 0.5rem; }
+    .section-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; color: #fff; margin-bottom: 0.75rem; }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 680px; margin-bottom: 2.5rem; }
+
+    .prose { max-width: 740px; }
+    .prose p { color: var(--muted); font-size: 0.97rem; margin-bottom: 1.2rem; line-height: 1.8; }
+    .prose h3 { font-size: 1.3rem; color: #fff; margin: 2rem 0 0.6rem; }
+    .prose ul { list-style: none; padding: 0; margin-bottom: 1.2rem; }
+    .prose ul li { padding: 0.4rem 0 0.4rem 1.2rem; color: var(--muted); font-size: 0.95rem; position: relative; border-bottom: 1px solid var(--border); }
+    .prose ul li:last-child { border-bottom: none; }
+    .prose ul li::before { content: '→'; position: absolute; left: 0; color: var(--red-bright); font-size: 0.8rem; top: 0.55rem; }
+
+    .spec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0; }
+    .spec-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem 1.5rem; }
+    .spec-card .spec-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+    .spec-card .spec-value { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--gold-light); }
+    .spec-card .spec-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+    .step-list { list-style: none; padding: 0; }
+    .step-list li { display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--border); align-items: start; }
+    .step-list li:last-child { border-bottom: none; }
+    .step-num { width: 36px; height: 36px; border-radius: 50%; background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.4); display: flex; align-items: center; justify-content: center; font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; color: var(--red-bright); flex-shrink: 0; margin-top: 0.2rem; }
+    .step-content h4 { font-size: 1.1rem; color: #fff; margin-bottom: 0.35rem; }
+    .step-content p { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    .section-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem 1.5rem; }
+    .section-row { display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+    .section-row:last-child { border-bottom: none; }
+    .section-row .snum { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--gold-light); width: 28px; }
+    .section-row .sname { font-size: 0.95rem; color: var(--text); }
+    .section-row .stime { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+
+    .callout { background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.25); border-left: 3px solid var(--red); border-radius: 4px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .callout p { font-size: 0.92rem; color: var(--text); margin: 0; line-height: 1.7; }
+    .callout strong { color: #fff; }
+
+    .tip-box { background: rgba(201,162,39,0.07); border: 1px solid rgba(201,162,39,0.2); border-left: 3px solid var(--gold); border-radius: 4px; padding: 1.25rem 1.5rem; margin: 2rem 0; }
+    .tip-box p { font-size: 0.92rem; color: var(--text); margin: 0; line-height: 1.7; }
+    .tip-box strong { color: var(--gold-light); }
+
+    .video-wrap { max-width: 800px; margin: 0 auto 2rem; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); aspect-ratio: 16/9; }
+    .video-wrap iframe { width: 100%; height: 100%; border: none; }
+
+    .shorts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+    .short-embed { aspect-ratio: 9/16; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); background: var(--bg3); }
+    .short-embed iframe { width: 100%; height: 100%; border: none; }
+
+    .nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .nav-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; display: block; }
+    .nav-card:hover { border-color: var(--gold); transform: translateY(-2px); color: var(--text); }
+    .nav-card .nc-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 0.4rem; }
+    .nav-card h3 { font-size: 1.15rem; color: #fff; margin-bottom: 0.4rem; }
+    .nav-card p { font-size: 0.87rem; color: var(--muted); }
+
+    .faq-list { max-width: 780px; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 1.25rem 0; }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-q { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 600; color: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .faq-q::after { content: '+'; color: var(--red-bright); font-size: 1.4rem; font-weight: 300; flex-shrink: 0; transition: transform 0.2s; }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+    .faq-a { font-size: 0.9rem; color: var(--muted); line-height: 1.7; max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.2s; padding-top: 0; }
+    .faq-item.open .faq-a { max-height: 300px; padding-top: 0.6rem; }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: start; }
+    .footer-brand .nav-logo { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
+    .footer-brand p { font-size: 0.85rem; color: var(--muted); max-width: 280px; }
+    .footer-links h4 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    .footer-links a { display: block; font-size: 0.88rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom { max-width: 1100px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); }
+
+    @media(max-width:600px) { .nav-links { display: none; } .step-list li { grid-template-columns: 1fr; gap: 0.75rem; } }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to 3D Print an Iron Man MK85 Helmet",
+    "description": "Step-by-step guide to printing the MK85 Iron Man helmet on a home FDM 3D printer, including settings, assembly, and LED eye wiring.",
+    "author": { "@type": "Person", "name": "Jim", "url": "https://www.ironbuilds.co.uk/" },
+    "step": [
+      { "@type": "HowToStep", "name": "Choose your STL files", "text": "Download the MK85 helmet STL files from Printables or Thingiverse. The helmet is too large for a single print so models are already split into sections." },
+      { "@type": "HowToStep", "name": "Set up your slicer", "text": "Use 0.2mm layer height, 20% infill, 3 perimeters. PLA works well for the helmet shell." },
+      { "@type": "HowToStep", "name": "Print all 6 sections", "text": "Print each section in turn, allowing 8-12 hours per section. Total print time is approximately 40-60 hours." },
+      { "@type": "HowToStep", "name": "Assemble with superglue", "text": "Dry-fit all sections first, then glue in pairs. Use filler on the seams once the glue cures." },
+      { "@type": "HowToStep", "name": "Wire the LED eyes", "text": "Fit WS2812B LED strips or a pre-made LED module into the eye gaps. Connect to a battery and optionally an Arduino for custom effects." }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">IRON<span>BUILDS</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/helmet/" class="active">Helmet</a>
+      <a href="/electronics/">Electronics</a>
+      <a href="/build-log/">Build Log</a>
+      <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="/">IronBuilds</a><span>›</span> Helmet Build</div>
+      <div class="section-label">MK85 Build Guide</div>
+      <h1>How to 3D Print an <em>Iron Man MK85 Helmet</em></h1>
+      <p class="lead">Print settings, section breakdown, assembly, and LED eye wiring — from someone who's actually done it on a stock Ender 3.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+
+  <!-- WATCH THE VIDEO -->
+  <section>
+    <div class="container">
+      <div class="section-label">Watch First</div>
+      <h2 class="section-title">The Full Helmet Build on Video</h2>
+      <p class="section-sub">This is the video that started the whole suit project. Watch the helmet come together from raw filament, then read the guide below for the details.</p>
+      <div class="video-wrap">
+        <iframe src="https://www.youtube.com/embed/rNQiCLwh48g"
+          title="I 3D Printed an Iron Man Helmet — Can I Really Build the Whole Suit?"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- PRINT SPECS -->
+  <section>
+    <div class="container">
+      <div class="section-label">Print Settings</div>
+      <h2 class="section-title">What Settings to Use</h2>
+      <p class="section-sub">These are the exact settings used for the IronBuilds MK85 helmet. They work on any mid-range FDM printer — no tuning needed if you're already printing reliably.</p>
+
+      <div class="spec-grid">
+        <div class="spec-card">
+          <div class="spec-label">Layer Height</div>
+          <div class="spec-value">0.2 mm</div>
+          <div class="spec-note">Good balance of detail and speed</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Infill</div>
+          <div class="spec-value">20%</div>
+          <div class="spec-note">Grid pattern — enough strength, saves filament</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Perimeters</div>
+          <div class="spec-value">3</div>
+          <div class="spec-note">Gives good wall strength for assembly</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Filament</div>
+          <div class="spec-value">PLA</div>
+          <div class="spec-note">Grey — easy to print, sands well</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Sections</div>
+          <div class="spec-value">6</div>
+          <div class="spec-note">Split to fit standard print bed</div>
+        </div>
+        <div class="spec-card">
+          <div class="spec-label">Total Print Time</div>
+          <div class="spec-value">~52 hrs</div>
+          <div class="spec-note">Spread across multiple days</div>
+        </div>
+      </div>
+
+      <div class="prose" style="margin-top: 1rem;">
+        <p>You don't need a fancy printer for this. The IronBuilds helmet was printed entirely on a Creality Ender 3 — one of the most common hobbyist printers out there. If you've already printed a few test pieces successfully, you have everything you need.</p>
+        <p>PLA is the right call for the helmet. It's easy to print at standard temperatures (200°C nozzle, 60°C bed), produces clean surfaces, sands down nicely when you want to smooth the layer lines, and takes paint well when you eventually get to that stage. Don't bother with PETG or ABS for the helmet — you'd just be making life harder for no real benefit.</p>
+        <p>Grey filament is worth using if you can. The raw grey PLA looks great on camera before any finishing, and it's a neutral base for whatever colour you end up painting. Most MK85 builds go with red and gold eventually, but leaving it raw grey while the build is in progress looks intentional rather than unfinished.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- SECTION BREAKDOWN -->
+  <section style="background: var(--bg2);">
+    <div class="container">
+      <div class="section-label">How It's Split</div>
+      <h2 class="section-title">The 6-Section Breakdown</h2>
+      <p class="section-sub">The MK85 helmet is far too large to print as a single piece on a standard 220×220mm build plate. Good STL files already come pre-split — here's how the sections divide up.</p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start;">
+        <div class="section-card">
+          <div class="section-row">
+            <div class="snum">1</div><div class="sname">Top Crown</div><div class="stime">~10–12 hrs</div>
+          </div>
+          <div class="section-row">
+            <div class="snum">2</div><div class="sname">Left Cheek / Face Plate</div><div class="stime">~8–10 hrs</div>
+          </div>
+          <div class="section-row">
+            <div class="snum">3</div><div class="sname">Right Cheek / Face Plate</div><div class="stime">~8–10 hrs</div>
+          </div>
+          <div class="section-row">
+            <div class="snum">4</div><div class="sname">Chin & Jaw</div><div class="stime">~6–8 hrs</div>
+          </div>
+          <div class="section-row">
+            <div class="snum">5</div><div class="sname">Back Panel (upper)</div><div class="stime">~8–10 hrs</div>
+          </div>
+          <div class="section-row">
+            <div class="snum">6</div><div class="sname">Neck & Collar Ring</div><div class="stime">~5–6 hrs</div>
+          </div>
+        </div>
+
+        <div class="prose">
+          <h3>Which STL Files to Use</h3>
+          <p>The MK85 files used in this build are sourced from <a href="https://www.printables.com" target="_blank" rel="noopener">Printables</a> and <a href="https://www.thingiverse.com" target="_blank" rel="noopener">Thingiverse</a>. Search for "Iron Man MK85 helmet wearable" and look for versions that are already split for FDM printing — you'll see preview images showing all the separate pieces laid flat.</p>
+          <p>Check the comments on whatever files you download. The community is good at flagging versions with fit issues or thin walls. A file with 50+ makes and lots of comments is a safe bet.</p>
+          <h3>Print Order</h3>
+          <p>Print the face plate sections first so you can check the eye gaps fit your chosen LED modules early. There's nothing worse than finishing the whole helmet and then discovering your LED modules are 2mm too wide. The eye openings can usually be cleaned up with a small file if needed, but it's easier to account for it at the start.</p>
+          <div class="tip-box">
+            <p><strong>Tip:</strong> Print a small test section first — a 50mm slice of the cheek piece — before committing to a full 10-hour run. Check layer adhesion, wall thickness, and that the scaling is right for your head.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ASSEMBLY -->
+  <section>
+    <div class="container">
+      <div class="section-label">Assembly</div>
+      <h2 class="section-title">Gluing It Together</h2>
+      <p class="section-sub">The assembly process is straightforward. Dry-fit everything first, then work section by section with superglue and filler on the seams.</p>
+
+      <div class="prose">
+        <ul class="step-list">
+          <li>
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h4>Dry-fit all six sections</h4>
+              <p>Before any glue, hold all six pieces together and check the fit. The sections should align cleanly. If there are small gaps, mark them — you'll fill those later. This is also when you check whether your head actually fits inside. If it's too tight, scale up by 2–3% and reprint the worst offenders.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h4>Sand the joining faces flat</h4>
+              <p>Run 120-grit sandpaper across every joining face to remove any elephant foot or slight warping. Flat surfaces = strong joints. This takes five minutes and makes a real difference to the final look.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h4>Glue in pairs, work inward</h4>
+              <p>Use cyanoacrylate (superglue) — the gel type is easier to control than the thin liquid. Join the two face plate halves first, then attach the crown, then bring in the back panels. Working in pairs means you can hold each joint for 60 seconds without juggling the whole helmet.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <h4>Fill the seams</h4>
+              <p>Once the glue has fully cured (give it an hour), apply lightweight body filler or Bondo to all the seams and let it dry. Sand back to a smooth surface with 180-grit, then 320-grit. The seams essentially disappear at this stage. This is optional if you're going for the raw unfinished look, but it's required before any painting.</p>
+            </div>
+          </li>
+          <li>
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <h4>Leave the eye gaps open</h4>
+              <p>Don't fill or close the eye gaps. These are deliberately left open to accept LED modules. The MK85 eye shape is designed around LED lighting — closing them off would lose the most iconic detail of the whole helmet.</p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="callout">
+          <p><strong>Important:</strong> Don't rush the glue curing time. Superglue on PLA bonds fast but the joint isn't at full strength for 10–15 minutes. If you're applying filler too soon, you can pop joints apart. Give it a proper hour before you stress any seams.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- LED EYES -->
+  <section style="background: var(--bg2);">
+    <div class="container">
+      <div class="section-label">LED Eyes</div>
+      <h2 class="section-title">Wiring the Helmet Eyes</h2>
+      <p class="section-sub">The eye glow is what makes the helmet recognisable. Two approaches — one plug-and-play, one custom with Arduino.</p>
+
+      <div class="prose">
+        <p>The eye gaps in the MK85 are designed to hold LED light sources. When they glow that cold blue-white, the whole helmet transforms. This is the electronics part most people ask about, so here's the complete breakdown.</p>
+
+        <h3>Option 1: Pre-made LED Modules (Beginner)</h3>
+        <p>The easiest route is a purpose-built Iron Man eye LED module. These come as a matched pair, pre-wired with a battery pack and a simple on/off switch. You slot them into the eye gaps, connect the battery, and they glow. No soldering, no coding, no wiring knowledge required.</p>
+        <p>They typically cost £8–15 on Amazon and produce a very clean, steady glow. If you just want the helmet to light up without any complexity, this is the right choice. You can always upgrade to Arduino later — the eye gaps stay the same size.</p>
+
+        <h3>Option 2: WS2812B LEDs + Arduino (Custom)</h3>
+        <p>For a movie-accurate startup sequence — where the eyes flicker on and stabilise, or pulse gently — you need addressable LEDs and a microcontroller. WS2812B LED strips cut to size fit the eye gaps, and an Arduino Nano drives the animations. The code for a basic startup flicker effect is about 40 lines and is documented in the <a href="/electronics/">Electronics Guide</a>.</p>
+        <p>This approach takes an evening to set up if you've never used Arduino before. The <a href="/electronics/">full guide</a> covers the wiring, components, and code you need.</p>
+
+        <h3>What to Buy</h3>
+        <ul>
+          <li>Pre-made LED eye kit — search "Iron Man helmet LED eyes" on Amazon, ~£10</li>
+          <li>WS2812B LED strip (for Arduino route) — <a href="https://amzn.to/4bN1XKa" target="_blank" rel="noopener">Buy on Amazon →</a></li>
+          <li>Arduino Nano — <a href="https://amzn.to/4bF8s22" target="_blank" rel="noopener">Buy on Amazon →</a></li>
+          <li>18650 battery + holder — <a href="https://amzn.to/4t6O4xq" target="_blank" rel="noopener">Buy on Amazon →</a></li>
+          <li>Mini USB charge board (TP4056) — fits inside the helmet neck section</li>
+        </ul>
+        <p>The full parts list with links and wiring instructions is on the <a href="/electronics/">Electronics Guide page</a>.</p>
+
+        <div class="tip-box">
+          <p><strong>Shorts:</strong> The video below shows the helmet eyes switched on for the first time. That reaction is exactly why this part of the build is worth doing properly.</p>
+        </div>
+      </div>
+
+      <div class="shorts-grid" style="max-width: 320px;">
+        <div class="short-embed">
+          <iframe src="https://www.youtube.com/embed/tW9_5mwElo4"
+            title="I 3D Printed Iron Man Helmet Eyes That ACTUALLY WORK"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- FAQ -->
+  <section>
+    <div class="container">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Helmet Questions</h2>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q">What 3D printer do you use for the helmet?</div>
+          <div class="faq-a">Creality Ender 3 — one of the most common entry-level printers. The MK85 is printed in 6 sections to fit the standard 220×220mm build plate. Any FDM printer with a similar or larger bed will work fine.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How long does the MK85 helmet take to print?</div>
+          <div class="faq-a">About 40–60 hours total at 0.2mm layer height and 20% infill, split across all 6 sections. That's roughly 8–12 hours per section, spread over several days. The crown piece is usually the longest single print.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Can I use PETG instead of PLA?</div>
+          <div class="faq-a">You can, but there's no real benefit for the helmet shell. PETG is trickier to print cleanly and harder to sand than PLA. Stick with PLA for the helmet — save PETG for flex joints like fingers where the extra toughness actually matters.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How do I make the seams invisible?</div>
+          <div class="faq-a">Sand the join faces flat before gluing, then apply lightweight body filler (Bondo or similar) to the seams after the glue cures. Sand back with 180-grit, then 320-grit. The seam essentially vanishes. This takes about an hour of work and the difference is dramatic.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Will the helmet actually fit my head?</div>
+          <div class="faq-a">Most MK85 STL files are designed to fit an average adult head with some interior padding clearance. Measure the widest point of your head (usually ear to ear across the top) and compare with the STL description. If you're on the larger side, scale up by 3–5% in your slicer before printing — it's much easier to resize now than after assembly.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Do I need to paint it?</div>
+          <div class="faq-a">Not at this stage of the build. The raw grey PLA looks great on camera and there's no point painting until the whole suit is finished — you'll want to do all the paint work in one go. Painting and finishing are coming in a future build log update.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- NEXT STEPS NAV -->
+  <section style="background: var(--bg2);">
+    <div class="container">
+      <div class="section-label">What's Next</div>
+      <h2 class="section-title">Continue the Build</h2>
+      <div class="nav-cards">
+        <a href="/electronics/" class="nav-card">
+          <div class="nc-label">Next Step</div>
+          <h3>Electronics Guide →</h3>
+          <p>LED wiring, Arduino setup, and the exact parts you need for the helmet eyes, repulsor glove, and arc reactor.</p>
+        </a>
+        <a href="/build-log/" class="nav-card">
+          <div class="nc-label">Progress</div>
+          <h3>Full Build Log →</h3>
+          <p>Chronological updates from every build session — what worked, what didn't, and what's currently on the print bed.</p>
+        </a>
+        <a href="/" class="nav-card">
+          <div class="nc-label">Home</div>
+          <h3>IronBuilds Home →</h3>
+          <p>The full suit overview, progress tracker, and suit piece breakdown from helmet to boots.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo">IRON<span style="color:var(--red-bright)">BUILDS</span></a>
+        <p>A full 3D printed Iron Man suit build log. Raw prints, electronics guides, and Arduino tutorials for beginners.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Build</h4>
+        <a href="/helmet/">MK85 Helmet Guide</a>
+        <a href="/build-log/">Build Log</a>
+        <a href="/#build">The Suit So Far</a>
+      </div>
+      <div class="footer-links">
+        <h4>Guides</h4>
+        <a href="/electronics/">Electronics Guide</a>
+        <a href="/#arduino">Arduino Projects</a>
+        <a href="/#faq">FAQ</a>
+      </div>
+      <div class="footer-links">
+        <h4>Follow</h4>
+        <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.reddit.com/user/Powerful_Maize8399" target="_blank" rel="noopener">Reddit</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 IronBuilds.co.uk — This site contains affiliate links. If you buy via these links I may earn a small commission at no extra cost to you. IronBuilds is an independent fan project and is not affiliated with Marvel, Disney, or any rights holders.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!isOpen) item.classList.add('open');
+      });
+    });
+  </script>
+
+</body>
+</html>

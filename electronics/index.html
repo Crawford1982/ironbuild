@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QCY44TYZC6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-QCY44TYZC6');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iron Man Suit Electronics Guide — LEDs, Arduino & Wiring for Beginners | IronBuilds</title>
+  <meta name="description" content="Complete electronics guide for a 3D printed Iron Man suit. LED eyes, arc reactor wiring, repulsor glove, Arduino code — exact parts and step-by-step instructions for beginners.">
+  <meta property="og:title" content="Iron Man Suit Electronics Guide — LEDs, Arduino & Wiring for Beginners">
+  <meta property="og:description" content="Exact parts, wiring instructions, and Arduino code for Iron Man helmet LEDs, arc reactor, and repulsor glove. No soldering experience needed to get started.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.ironbuilds.co.uk/electronics/">
+  <meta property="og:image" content="https://www.ironbuilds.co.uk/images/og-hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://www.ironbuilds.co.uk/electronics/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0a0a12; --bg2:#10101c; --bg3:#16162a; --border:#1e1e38;
+      --red:#c0392b; --red-bright:#e74c3c; --gold:#c9a227; --gold-light:#f0c040;
+      --text:#dde0f0; --muted:#7070a0;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 16px; line-height: 1.7; }
+    h1,h2,h3,h4 { font-family: 'Rajdhani', sans-serif; letter-spacing: 0.03em; }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--gold-light); }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,18,0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--gold-light); letter-spacing: 0.08em; }
+    .nav-logo span { color: var(--red-bright); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { color: var(--muted); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .page-header {
+      padding: 3.5rem 2rem 3rem;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(50,100,220,0.1) 0%, transparent 70%);
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header .container { max-width: 1100px; margin: 0 auto; }
+    .breadcrumb { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb span { margin: 0 0.4rem; }
+    .section-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 0.5rem; }
+    .page-header h1 { font-size: clamp(1.9rem, 4vw, 3rem); font-weight: 700; color: #fff; line-height: 1.15; margin-bottom: 0.75rem; }
+    .page-header h1 em { font-style: normal; color: var(--gold-light); }
+    .page-header .lead { font-size: 1.05rem; color: var(--muted); max-width: 680px; }
+
+    section { padding: 4rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-title { font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; color: #fff; margin-bottom: 0.75rem; }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 680px; margin-bottom: 2.5rem; }
+
+    .prose { max-width: 740px; }
+    .prose p { color: var(--muted); font-size: 0.97rem; margin-bottom: 1.2rem; line-height: 1.8; }
+    .prose h3 { font-size: 1.25rem; color: #fff; margin: 2rem 0 0.6rem; }
+
+    .piece-nav { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .piece-nav a { padding: 0.5rem 1.2rem; border-radius: 3px; font-size: 0.88rem; font-weight: 500; border: 1px solid var(--border); color: var(--muted); transition: all 0.2s; }
+    .piece-nav a:hover { border-color: var(--gold); color: var(--gold-light); }
+
+    .piece-block { margin-bottom: 4rem; padding-bottom: 4rem; border-bottom: 1px solid var(--border); }
+    .piece-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .piece-header { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 1.5rem; }
+    .piece-icon { width: 52px; height: 52px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+    .piece-icon.red  { background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.3); }
+    .piece-icon.blue { background: rgba(50,100,220,0.12); border: 1px solid rgba(50,100,220,0.3); }
+    .piece-icon.gold { background: rgba(201,162,39,0.12); border: 1px solid rgba(201,162,39,0.3); }
+    .piece-title h2 { font-size: 1.7rem; color: #fff; margin-bottom: 0.2rem; }
+    .piece-title p { font-size: 0.9rem; color: var(--muted); }
+
+    .difficulty { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.15rem 0.55rem; border-radius: 2px; }
+    .diff-easy   { background: rgba(46,204,113,0.12); border: 1px solid rgba(46,204,113,0.3); color: #2ecc71; }
+    .diff-medium { background: rgba(201,162,39,0.12); border: 1px solid rgba(201,162,39,0.3); color: var(--gold-light); }
+    .diff-hard   { background: rgba(192,57,43,0.12); border: 1px solid rgba(192,57,43,0.3); color: var(--red-bright); }
+
+    .parts-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    .parts-table th { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 0.6rem 1rem; border-bottom: 1px solid var(--border); }
+    .parts-table td { font-size: 0.9rem; color: var(--text); padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
+    .parts-table tr:last-child td { border-bottom: none; }
+    .parts-table td.price { color: var(--gold-light); font-weight: 600; white-space: nowrap; }
+    .parts-table td.note { color: var(--muted); font-size: 0.82rem; }
+
+    .route-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+    .route-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; }
+    .route-card h4 { font-size: 1.1rem; color: #fff; margin-bottom: 0.4rem; }
+    .route-card p { font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem; }
+    .route-card ul { list-style: none; padding: 0; }
+    .route-card ul li { font-size: 0.85rem; color: var(--text); padding: 0.3rem 0; padding-left: 1rem; position: relative; }
+    .route-card ul li::before { content: '✓'; position: absolute; left: 0; color: #2ecc71; font-size: 0.75rem; top: 0.45rem; }
+
+    .wiring-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem 2rem; margin: 1.5rem 0; }
+    .wiring-block h4 { font-size: 1rem; color: var(--gold-light); margin-bottom: 1rem; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.85rem; }
+    .wire-row { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .wire-row:last-child { border-bottom: none; }
+    .wire-from { color: var(--text); font-weight: 500; min-width: 160px; }
+    .wire-arrow { color: var(--red-bright); }
+    .wire-to { color: var(--muted); }
+
+    .code-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; overflow-x: auto; margin: 1.5rem 0; }
+    .code-block pre { font-family: 'Courier New', monospace; font-size: 0.82rem; line-height: 1.6; color: var(--text); }
+    .code-comment { color: var(--muted); }
+    .code-keyword { color: var(--red-bright); }
+    .code-value   { color: var(--gold-light); }
+    .code-string  { color: #a8d8a8; }
+
+    .callout { background: rgba(192,57,43,0.08); border: 1px solid rgba(192,57,43,0.25); border-left: 3px solid var(--red); border-radius: 4px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .callout p { font-size: 0.92rem; color: var(--text); margin: 0; line-height: 1.7; }
+    .tip-box { background: rgba(201,162,39,0.07); border: 1px solid rgba(201,162,39,0.2); border-left: 3px solid var(--gold); border-radius: 4px; padding: 1.25rem 1.5rem; margin: 1.5rem 0; }
+    .tip-box p { font-size: 0.92rem; color: var(--text); margin: 0; line-height: 1.7; }
+
+    .nav-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .nav-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1.5rem; transition: border-color 0.2s, transform 0.2s; display: block; }
+    .nav-card:hover { border-color: var(--gold); transform: translateY(-2px); color: var(--text); }
+    .nav-card .nc-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 0.4rem; }
+    .nav-card h3 { font-size: 1.15rem; color: #fff; margin-bottom: 0.4rem; }
+    .nav-card p { font-size: 0.87rem; color: var(--muted); }
+
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    footer { background: var(--bg2); border-top: 1px solid var(--border); padding: 3rem 2rem 2rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: start; }
+    .footer-brand .nav-logo { font-size: 1.3rem; display: block; margin-bottom: 0.5rem; }
+    .footer-brand p { font-size: 0.85rem; color: var(--muted); max-width: 280px; }
+    .footer-links h4 { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+    .footer-links a { display: block; font-size: 0.88rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom { max-width: 1100px; margin: 2rem auto 0; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.78rem; color: var(--muted); }
+
+    @media(max-width:700px) { .nav-links { display: none; } .route-grid { grid-template-columns: 1fr; } .wire-from { min-width: 120px; } }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Iron Man Suit Electronics Guide — LEDs, Arduino & Wiring for Beginners",
+    "description": "Complete electronics guide for a 3D printed Iron Man suit. Covers LED eyes, arc reactor wiring, repulsor glove, and Arduino code.",
+    "author": { "@type": "Person", "name": "Jim", "url": "https://www.ironbuilds.co.uk/" },
+    "url": "https://www.ironbuilds.co.uk/electronics/",
+    "isPartOf": { "@type": "WebSite", "name": "IronBuilds", "url": "https://www.ironbuilds.co.uk/" }
+  }
+  </script>
+</head>
+
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">IRON<span>BUILDS</span></a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/helmet/">Helmet</a>
+      <a href="/electronics/" class="active">Electronics</a>
+      <a href="/build-log/">Build Log</a>
+      <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="/">IronBuilds</a><span>›</span> Electronics Guide</div>
+      <div class="section-label">Beginner Electronics Guide</div>
+      <h1>Iron Man Suit <em>Electronics Guide</em></h1>
+      <p class="lead">You don't need to be an engineer. Here's the exact wiring, parts, and Arduino code for each piece of the suit — from zero to glowing in an evening.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+
+  <!-- INTRO -->
+  <section>
+    <div class="container">
+      <div class="prose">
+        <p>The electronics are what turn a pile of grey plastic into something that looks like it actually works. Getting the helmet eyes to glow, the arc reactor to pulse, and the repulsor to light up on demand — those are the moments that make the whole project worth it.</p>
+        <p>This guide covers every electronic component in the IronBuilds MK85 suit, starting with the simplest options (pre-made modules, plug and play, no soldering) and building up to the custom Arduino builds for movie-accurate effects. You don't need to start at the complex end — the pre-made routes produce great results and you can always upgrade later.</p>
+        <p>All three pieces are covered below: the <a href="#helmet-leds">helmet LED eyes</a>, the <a href="#repulsor">repulsor glove palm LED</a>, and the <a href="#arc-reactor">chest arc reactor</a>. Jump to whichever section you need.</p>
+      </div>
+
+      <div class="piece-nav">
+        <a href="#helmet-leds">🪖 Helmet LED Eyes</a>
+        <a href="#repulsor">🤚 Repulsor Glove</a>
+        <a href="#arc-reactor">⚡ Arc Reactor</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- HELMET LEDS -->
+  <section id="helmet-leds" style="background: var(--bg2);">
+    <div class="container">
+      <div class="piece-block">
+        <div class="piece-header">
+          <div class="piece-icon red">🪖</div>
+          <div class="piece-title">
+            <h2>Helmet — LED Eyes</h2>
+            <p>The most asked-about part of any Iron Man build. Two routes depending on how much control you want.</p>
+          </div>
+        </div>
+
+        <div class="prose">
+          <p>The MK85 eye gaps are shaped specifically to hold LED light sources. When they glow, everything else about the helmet falls into place. This is the electronics addition that makes the biggest visual difference for the least effort.</p>
+        </div>
+
+        <div class="route-grid">
+          <div class="route-card">
+            <h4>Route A — Pre-made Module <span class="difficulty diff-easy" style="margin-left:0.5rem">Easy</span></h4>
+            <p>Purpose-built Iron Man eye LED kits. Slot in, connect battery, glow. Zero wiring knowledge needed.</p>
+            <ul>
+              <li>No soldering required</li>
+              <li>Ready in under 20 minutes</li>
+              <li>Steady glow, on/off switch</li>
+              <li>~£8–15 on Amazon</li>
+              <li>Can upgrade to Arduino later</li>
+            </ul>
+          </div>
+          <div class="route-card">
+            <h4>Route B — Arduino Custom <span class="difficulty diff-medium" style="margin-left:0.5rem">Medium</span></h4>
+            <p>WS2812B LEDs + Arduino Nano. Full colour control, startup sequences, and custom animations.</p>
+            <ul>
+              <li>Movie-accurate startup flicker</li>
+              <li>Custom pulse and glow effects</li>
+              <li>~£15–25 in parts</li>
+              <li>One evening to set up</li>
+              <li>Reusable skills for arc reactor too</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 style="font-size:1.2rem; color:#fff; margin: 2rem 0 1rem; font-family:'Rajdhani',sans-serif;">Parts List — Route B (Arduino)</h3>
+        <table class="parts-table">
+          <thead>
+            <tr><th>Part</th><th>Spec</th><th>Approx. Cost</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>WS2812B LED strip</td><td>60 LEDs/m, cut to eye shape</td><td class="price">~£8</td><td class="note"><a href="https://amzn.to/4bN1XKa" target="_blank" rel="noopener">Buy →</a></td></tr>
+            <tr><td>Arduino Nano</td><td>Clone version works fine</td><td class="price">~£4</td><td class="note"><a href="https://amzn.to/4bF8s22" target="_blank" rel="noopener">Buy →</a></td></tr>
+            <tr><td>18650 battery</td><td>3.7V, 2500mAh+</td><td class="price">~£5</td><td class="note"><a href="https://amzn.to/4t6O4xq" target="_blank" rel="noopener">Buy →</a></td></tr>
+            <tr><td>18650 holder</td><td>Single cell, with leads</td><td class="price">~£2</td><td class="note">Fits in the neck section</td></tr>
+            <tr><td>TP4056 charge board</td><td>Mini USB, 1A</td><td class="price">~£2</td><td class="note">For recharging in place</td></tr>
+            <tr><td>100Ω resistor</td><td>For data line protection</td><td class="price">&lt;£1</td><td class="note">Include in the data wire to LEDs</td></tr>
+          </tbody>
+        </table>
+
+        <div class="wiring-block">
+          <h4>Wiring Connections — Helmet Eyes</h4>
+          <div class="wire-row"><span class="wire-from">Arduino 5V pin</span><span class="wire-arrow">→</span><span class="wire-to">WS2812B VCC</span></div>
+          <div class="wire-row"><span class="wire-from">Arduino GND pin</span><span class="wire-arrow">→</span><span class="wire-to">WS2812B GND</span></div>
+          <div class="wire-row"><span class="wire-from">Arduino D6 pin</span><span class="wire-arrow">→</span><span class="wire-to">100Ω resistor → WS2812B DIN</span></div>
+          <div class="wire-row"><span class="wire-from">18650 positive (+)</span><span class="wire-arrow">→</span><span class="wire-to">Arduino VIN pin</span></div>
+          <div class="wire-row"><span class="wire-from">18650 negative (−)</span><span class="wire-arrow">→</span><span class="wire-to">Arduino GND pin</span></div>
+          <div class="wire-row"><span class="wire-from">TP4056 BAT+ / BAT−</span><span class="wire-arrow">→</span><span class="wire-to">18650 positive / negative</span></div>
+        </div>
+
+        <div class="tip-box">
+          <p><strong>Tip:</strong> The 100Ω resistor on the data line is often skipped in tutorials but it's good practice — it protects the first LED from voltage spikes when the Arduino powers on. Takes 30 seconds to add and can save a strip.</p>
+        </div>
+
+        <h3 style="font-size:1.2rem; color:#fff; margin: 2rem 0 0.75rem; font-family:'Rajdhani',sans-serif;">Startup Flicker Code</h3>
+        <p style="font-size:0.9rem; color:var(--muted); margin-bottom:1rem;">Copy this into Arduino IDE. Requires the FastLED library (Sketch → Include Library → Manage Libraries → search FastLED).</p>
+
+        <div class="code-block">
+<pre><span class="code-comment">// Iron Man Helmet — Eye Startup Sequence
+// WS2812B on pin 6, Arduino Nano
+// Flickers on, then settles to steady glow</span>
+
+<span class="code-keyword">#include</span> <span class="code-string">&lt;FastLED.h&gt;</span>
+
+<span class="code-keyword">#define</span> NUM_LEDS  <span class="code-value">8</span>   <span class="code-comment">// adjust to your LED count per eye</span>
+<span class="code-keyword">#define</span> DATA_PIN  <span class="code-value">6</span>
+<span class="code-keyword">#define</span> HUE_BLUE  <span class="code-value">155</span>  <span class="code-comment">// change to 0 for red, 64 for warm white</span>
+
+CRGB leds[NUM_LEDS];
+
+<span class="code-keyword">void</span> setup() {
+  FastLED.addLeds&lt;WS2812B, DATA_PIN, GRB&gt;(leds, NUM_LEDS);
+  delay(<span class="code-value">500</span>);
+  startupSequence();
+}
+
+<span class="code-keyword">void</span> startupSequence() {
+  <span class="code-comment">// Flicker phase — 1.5 seconds</span>
+  <span class="code-keyword">for</span> (<span class="code-keyword">int</span> f = <span class="code-value">0</span>; f &lt; <span class="code-value">12</span>; f++) {
+    <span class="code-keyword">int</span> bri = random(<span class="code-value">20</span>, <span class="code-value">160</span>);
+    fill_solid(leds, NUM_LEDS, CHSV(HUE_BLUE, <span class="code-value">200</span>, bri));
+    FastLED.show();
+    delay(random(<span class="code-value">30</span>, <span class="code-value">150</span>));
+  }
+  <span class="code-comment">// Ramp to full brightness</span>
+  <span class="code-keyword">for</span> (<span class="code-keyword">int</span> b = <span class="code-value">0</span>; b &lt;= <span class="code-value">220</span>; b += <span class="code-value">4</span>) {
+    fill_solid(leds, NUM_LEDS, CHSV(HUE_BLUE, <span class="code-value">180</span>, b));
+    FastLED.show();
+    delay(<span class="code-value">8</span>);
+  }
+}
+
+<span class="code-keyword">void</span> loop() {
+  <span class="code-comment">// Steady glow with very subtle pulse</span>
+  <span class="code-keyword">float</span> pulse = sin(millis() / <span class="code-value">2000.0</span>) * <span class="code-value">15</span> + <span class="code-value">210</span>;
+  fill_solid(leds, NUM_LEDS, CHSV(HUE_BLUE, <span class="code-value">180</span>, (<span class="code-keyword">int</span>)pulse));
+  FastLED.show();
+  delay(<span class="code-value">20</span>);
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- REPULSOR GLOVE -->
+  <section id="repulsor">
+    <div class="container">
+      <div class="piece-block">
+        <div class="piece-header">
+          <div class="piece-icon blue">🤚</div>
+          <div class="piece-title">
+            <h2>Repulsor Glove — Palm LED</h2>
+            <p>A single high-power LED in the palm, triggered by a button in the index finger. Simple circuit, massive impact.</p>
+          </div>
+        </div>
+
+        <div class="prose">
+          <p>The repulsor glove is intentionally kept simple. One high-power white LED in the palm housing, one push button hidden in the index finger joint, one small LiPo battery in the back of the hand. When you press the button, the palm lights up. That's it. It works brilliantly.</p>
+          <p>There's no Arduino needed for the basic setup — this is a direct LED circuit with a current-limiting resistor. For a charge-up effect (where the LED gradually brightens before firing), an Arduino Nano can be added using the upgrade path below.</p>
+        </div>
+
+        <h3 style="font-size:1.2rem; color:#fff; margin: 1.5rem 0 1rem; font-family:'Rajdhani',sans-serif;">Parts List — Basic Circuit</h3>
+        <table class="parts-table">
+          <thead>
+            <tr><th>Part</th><th>Spec</th><th>Approx. Cost</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>High-power LED</td><td>3W, cool white, 6000K</td><td class="price">~£3</td><td class="note">Fits the MK85 palm housing</td></tr>
+            <tr><td>LED driver module</td><td>Constant current, 3W</td><td class="price">~£3</td><td class="note">Prevents LED burnout</td></tr>
+            <tr><td>Push button</td><td>Tactile, 6×6mm</td><td class="price">&lt;£1</td><td class="note">Fits inside finger joint channel</td></tr>
+            <tr><td>LiPo battery</td><td>3.7V, 500mAh, flat pack</td><td class="price">~£5</td><td class="note">Slim enough for back-of-hand housing</td></tr>
+            <tr><td>TP4056 charge board</td><td>Mini USB, 500mA</td><td class="price">~£2</td><td class="note">USB charge port in wrist section</td></tr>
+          </tbody>
+        </table>
+
+        <div class="wiring-block">
+          <h4>Wiring Connections — Basic Palm LED</h4>
+          <div class="wire-row"><span class="wire-from">LiPo positive (+)</span><span class="wire-arrow">→</span><span class="wire-to">Push button (one leg)</span></div>
+          <div class="wire-row"><span class="wire-from">Push button (other leg)</span><span class="wire-arrow">→</span><span class="wire-to">LED driver input (+)</span></div>
+          <div class="wire-row"><span class="wire-from">LED driver output (+/−)</span><span class="wire-arrow">→</span><span class="wire-to">LED (+/−)</span></div>
+          <div class="wire-row"><span class="wire-from">LiPo negative (−)</span><span class="wire-arrow">→</span><span class="wire-to">LED driver GND</span></div>
+          <div class="wire-row"><span class="wire-from">TP4056 charge port</span><span class="wire-arrow">→</span><span class="wire-to">LiPo BAT+/BAT− pads</span></div>
+        </div>
+
+        <div class="callout">
+          <p><strong>Always use a current-limiting LED driver with a 3W LED</strong> — a raw 3W LED connected directly to a LiPo will draw too much current, overheat, and fail quickly. The driver module costs about £3 and makes the circuit bulletproof.</p>
+        </div>
+
+        <h3 style="font-size:1.2rem; color:#fff; margin: 2rem 0 0.75rem; font-family:'Rajdhani',sans-serif;">Upgrade: Charge-Up Effect with Arduino</h3>
+        <p style="font-size:0.9rem; color:var(--muted); margin-bottom:1rem;">Replace the basic circuit with an Arduino Nano and a PWM-capable MOSFET for a slow charge animation followed by a full brightness burst on button press.</p>
+
+        <div class="code-block">
+<pre><span class="code-comment">// Repulsor Charge-Up Effect
+// Arduino Nano, MOSFET on pin 9 (PWM), button on pin 2</span>
+
+<span class="code-keyword">const int</span> ledPin = <span class="code-value">9</span>;
+<span class="code-keyword">const int</span> btnPin = <span class="code-value">2</span>;
+
+<span class="code-keyword">void</span> setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(btnPin, INPUT_PULLUP);
+}
+
+<span class="code-keyword">void</span> loop() {
+  <span class="code-keyword">if</span> (digitalRead(btnPin) == LOW) {
+    <span class="code-comment">// Charge up over 1.2 seconds</span>
+    <span class="code-keyword">for</span> (<span class="code-keyword">int</span> i = <span class="code-value">0</span>; i &lt; <span class="code-value">255</span>; i++) {
+      analogWrite(ledPin, i);
+      delay(<span class="code-value">5</span>);
+    }
+    delay(<span class="code-value">400</span>); <span class="code-comment">// hold full brightness</span>
+    analogWrite(ledPin, <span class="code-value">0</span>); <span class="code-comment">// fire discharge</span>
+    delay(<span class="code-value">50</span>);
+    analogWrite(ledPin, <span class="code-value">255</span>); <span class="code-comment">// back on</span>
+    delay(<span class="code-value">200</span>);
+    analogWrite(ledPin, <span class="code-value">0</span>);
+  }
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- ARC REACTOR -->
+  <section id="arc-reactor" style="background: var(--bg2);">
+    <div class="container">
+      <div class="piece-block">
+        <div class="piece-header">
+          <div class="piece-icon gold">⚡</div>
+          <div class="piece-title">
+            <h2>Chest — Arc Reactor</h2>
+            <p>A WS2812B LED ring with an Arduino breathing animation. ~20 lines of code, looks exactly like the films.</p>
+          </div>
+        </div>
+
+        <div class="prose">
+          <p>The arc reactor is the centrepiece of the whole suit and it deserves to be done properly. A 16-LED WS2812B ring fits perfectly in the MK85 chest housing, and an Arduino Nano running a sine-wave brightness animation produces the slow blue-white pulse that's instantly recognisable from the films.</p>
+          <p>This is actually a great Arduino starter project — the code is simple, the result is immediate, and the skills transfer directly to the helmet eye setup. If you're going to do one Arduino build on the suit, make it this one.</p>
+        </div>
+
+        <h3 style="font-size:1.2rem; color:#fff; margin: 1.5rem 0 1rem; font-family:'Rajdhani',sans-serif;">Parts List</h3>
+        <table class="parts-table">
+          <thead>
+            <tr><th>Part</th><th>Spec</th><th>Approx. Cost</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>WS2812B LED ring</td><td>12 or 16 LED, 52mm diameter</td><td class="price">~£5</td><td class="note"><a href="https://amzn.to/4bx8F8h" target="_blank" rel="noopener">Buy →</a></td></tr>
+            <tr><td>Arduino Nano</td><td>Clone works fine</td><td class="price">~£4</td><td class="note"><a href="https://amzn.to/4bF8s22" target="_blank" rel="noopener">Buy →</a></td></tr>
+            <tr><td>Frosted acrylic disc</td><td>Cut to arc reactor diameter</td><td class="price">~£3</td><td class="note">Diffuses the LED ring into a solid glow</td></tr>
+            <tr><td>USB power bank</td><td>5V output, slim profile</td><td class="price">~£10</td><td class="note">Powers the Arduino via USB — rechargeable</td></tr>
+            <tr><td>100Ω resistor</td><td>For data line</td><td class="price">&lt;£1</td><td class="note">Same protection as helmet eyes</td></tr>
+          </tbody>
+        </table>
+
+        <div class="wiring-block">
+          <h4>Wiring Connections — Arc Reactor</h4>
+          <div class="wire-row"><span class="wire-from">Arduino 5V pin</span><span class="wire-arrow">→</span><span class="wire-to">WS2812B ring VCC</span></div>
+          <div class="wire-row"><span class="wire-from">Arduino GND pin</span><span class="wire-arrow">→</span><span class="wire-to">WS2812B ring GND</span></div>
+          <div class="wire-row"><span class="wire-from">Arduino D6 pin</span><span class="wire-arrow">→</span><span class="wire-to">100Ω resistor → ring DIN</span></div>
+          <div class="wire-row"><span class="wire-from">USB power bank</span><span class="wire-arrow">→</span><span class="wire-to">Arduino Nano USB port (or VIN if 5V regulated)</span></div>
+        </div>
+
+        <h3 style="font-size:1.2rem; color:#fff; margin: 2rem 0 0.75rem; font-family:'Rajdhani',sans-serif;">Arc Reactor Pulse Code</h3>
+        <div class="code-block">
+<pre><span class="code-comment">// Arc Reactor Pulse Effect
+// WS2812B ring on pin 6, Arduino Nano
+// Smooth sine-wave breathing animation</span>
+
+<span class="code-keyword">#include</span> <span class="code-string">&lt;FastLED.h&gt;</span>
+
+<span class="code-keyword">#define</span> NUM_LEDS  <span class="code-value">16</span>
+<span class="code-keyword">#define</span> DATA_PIN  <span class="code-value">6</span>
+
+CRGB leds[NUM_LEDS];
+
+<span class="code-keyword">void</span> setup() {
+  FastLED.addLeds&lt;WS2812B, DATA_PIN, GRB&gt;(leds, NUM_LEDS);
+  FastLED.setBrightness(<span class="code-value">200</span>);
+}
+
+<span class="code-keyword">void</span> loop() {
+  <span class="code-comment">// Sine wave from ~40 to 220 brightness</span>
+  <span class="code-keyword">int</span> brightness = (<span class="code-keyword">int</span>)(sin(millis() / <span class="code-value">1200.0</span>) * <span class="code-value">90</span> + <span class="code-value">130</span>);
+  fill_solid(leds, NUM_LEDS, CHSV(<span class="code-value">140</span>, <span class="code-value">200</span>, brightness));
+  <span class="code-comment">// CHSV hue: 140 = blue-white, 0 = red, 64 = warm</span>
+  FastLED.show();
+  delay(<span class="code-value">15</span>);
+}</pre>
+        </div>
+
+        <div class="tip-box">
+          <p><strong>Frosted diffuser:</strong> The WS2812B ring produces individual bright dots without a diffuser. Cut a disc of 3mm frosted acrylic to fit the arc reactor housing and the ring becomes a solid, even glow. This one change makes it look professional. Acrylic cutters on Etsy will cut custom circles to size for a few pounds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- COMPLETE STARTER KIT -->
+  <section>
+    <div class="container">
+      <div class="section-label">Getting Started</div>
+      <h2 class="section-title">Everything You Need in One Order</h2>
+      <p class="section-sub">If you want to do all three electronics builds — helmet eyes, repulsor, and arc reactor — this starter kit covers most of the components in one hit.</p>
+
+      <div style="background: var(--bg2); border: 1px solid rgba(201,162,39,0.25); border-radius: 6px; padding: 1.75rem 2rem; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; max-width: 740px;">
+        <div>
+          <div style="font-family: 'Rajdhani', sans-serif; font-size: 1.15rem; color: var(--gold-light); font-weight: 600; margin-bottom: 0.3rem;">Complete Beginner Electronics Starter Kit</div>
+          <div style="font-size: 0.9rem; color: var(--muted);">Arduino Nano, LEDs, resistors, breadboard, and jumper wires — everything to follow this guide without a separate order for every component.</div>
+        </div>
+        <a href="https://amzn.to/47kl78K" target="_blank" rel="noopener" style="display:inline-block; padding: 0.75rem 1.8rem; border-radius: 3px; font-weight: 600; font-size: 0.95rem; background: transparent; color: var(--gold); border: 1px solid var(--gold); white-space: nowrap; transition: all 0.2s;">View on Amazon →</a>
+      </div>
+
+      <div class="prose" style="margin-top: 2rem;">
+        <p>STL files for the suit are sourced from <a href="https://www.printables.com" target="_blank" rel="noopener">Printables</a> and <a href="https://www.thingiverse.com" target="_blank" rel="noopener">Thingiverse</a>. All Arduino code uses the <a href="https://fastled.io" target="_blank" rel="noopener">FastLED library</a> which is free and installs in under a minute through the Arduino IDE library manager.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+
+  <!-- NEXT STEPS -->
+  <section style="background: var(--bg2);">
+    <div class="container">
+      <div class="section-label">Continue the Build</div>
+      <h2 class="section-title">What's Next</h2>
+      <div class="nav-cards">
+        <a href="/helmet/" class="nav-card">
+          <div class="nc-label">Start Here</div>
+          <h3>MK85 Helmet Guide →</h3>
+          <p>Print settings, section breakdown, assembly steps, and how to mount the LED eyes into the finished helmet.</p>
+        </a>
+        <a href="/build-log/" class="nav-card">
+          <div class="nc-label">Progress</div>
+          <h3>Full Build Log →</h3>
+          <p>Updates from every session — what's printed, what's wired, and what's currently on the print bed.</p>
+        </a>
+        <a href="/" class="nav-card">
+          <div class="nc-label">Overview</div>
+          <h3>IronBuilds Home →</h3>
+          <p>The complete suit overview with progress tracker, all 14 pieces, and the full suite of build guides.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="/" class="nav-logo">IRON<span style="color:var(--red-bright)">BUILDS</span></a>
+        <p>A full 3D printed Iron Man suit build log. Raw prints, electronics guides, and Arduino tutorials for beginners.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Build</h4>
+        <a href="/helmet/">MK85 Helmet Guide</a>
+        <a href="/build-log/">Build Log</a>
+        <a href="/#build">The Suit So Far</a>
+      </div>
+      <div class="footer-links">
+        <h4>Guides</h4>
+        <a href="/electronics/">Electronics Guide</a>
+        <a href="/#arduino">Arduino Projects</a>
+        <a href="/#faq">FAQ</a>
+      </div>
+      <div class="footer-links">
+        <h4>Follow</h4>
+        <a href="https://www.youtube.com/@EngineeringChaosDIY" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.reddit.com/user/Powerful_Maize8399" target="_blank" rel="noopener">Reddit</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 IronBuilds.co.uk — This site contains affiliate links. If you buy via these links I may earn a small commission at no extra cost to you. IronBuilds is an independent fan project and is not affiliated with Marvel, Disney, or any rights holders.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
