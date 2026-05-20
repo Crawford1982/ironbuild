@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.ironbuilds.co.uk/sitemap.xml
+Sitemap: https://ironbuilds.co.uk/sitemap.xml
